@@ -64,7 +64,7 @@ module.exports = MyProgram;
 #### [TestCommand](test/fixtures/my-bin/lib/test_command.js)
 
 ```js
-const Command = require('egg-bin').Command;
+const Command = require('common-bin').Command;
 
 class TestCommand extends Command {
   * run(cwd, args) {
@@ -86,7 +86,7 @@ module.exports = TestCommand;
 
 'use strict';
 
-const run = require('egg-bin').run;
+const run = require('common-bin').run;
 
 run(require('../lib/my_program'));
 ```

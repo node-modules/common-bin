@@ -23,6 +23,19 @@ describe('common-bin --version, --help', () => {
     })
     // .debug()
     .expect('stdout', /Usage: .*common-bin.* \[command\] \[options\]/)
+    .notExpect('stdout', / {2}More commands/)
+    .expect('code', 0)
+    .end(done);
+  });
+
+  it('should show help with command', done => {
+    const bin = path.join(__dirname, 'fixtures/my-bin/bin/my-bin.js');
+    coffee.fork(bin, [ '-h' ], {
+      cwd: appdir,
+    })
+    // .debug()
+    .expect('stdout', /Usage: .*common-bin.* \[command\] \[options\]/)
+    .expect('stdout', / {2}More commands/)
     .expect('code', 0)
     .end(done);
   });

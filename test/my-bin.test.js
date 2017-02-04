@@ -16,7 +16,7 @@ describe('custom egg-bin: my-egg-bin', () => {
     coffee.fork(myBin, [ 'test' ], {
       cwd,
     })
-    .debug()
+    // .debug()
     .coverage(false)
     .expect('stdout', /run mocha test/)
     .expect('stdout', /node version: v\d+\.\d+\.\d+/)

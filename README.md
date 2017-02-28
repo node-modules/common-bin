@@ -48,13 +48,16 @@ to create a new `my-bin` tool.
 
 ```js
 const Program = require('common-bin').Program;
+const pkg = require('../package.json';
 
 class MyProgram extends Program {
   constructor() {
     super();
-    this.version = require('../package.json').version;
-
-    this.addCommand('test', path.join(__dirname, 'test_command.js'));
+    this.name = pkg.name;
+    this.version = pkg.version;
+    this.command(path.join(__dirname, 'test_command.js'));
+    // or load entire directory
+    this.commandDir(path.join(__dirname, 'command'));
   }
 }
 
@@ -67,12 +70,20 @@ module.exports = MyProgram;
 const Command = require('common-bin').Command;
 
 class TestCommand extends Command {
-  * run(cwd, args) {
-    console.log('run mocha test at %s with %j', cwd, args);
+  constructor(props) {
+    super(props);
+    this.name = 'test';
+    this.description = 'unit test';
+    // see http://yargs.js.org/docs/#methods-optionskey-opt
+    this.options = {
+      require: {
+        description: 'require module name',
+      },
+    };
   }
 
-  help() {
-    return 'unit test';
+  * run({ cwd, argv, rawArgv }) {
+    console.log('run mocha test at %s with %j', cwd, argv);
   }
 }
 
@@ -86,9 +97,9 @@ module.exports = TestCommand;
 
 'use strict';
 
-const run = require('common-bin').run;
+const Program = require('../lib/my_program');
 
-run(require('../lib/my_program'));
+new Program().exec();
 ```
 
 #### Run result
@@ -96,7 +107,7 @@ run(require('../lib/my_program'));
 ```bash
 $ my-bin test
 
-run mocha test at /foo/bar with []
+run mocha test at /foo/bar with {}
 ```
 
 ## License

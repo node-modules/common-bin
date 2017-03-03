@@ -58,6 +58,9 @@ class MyProgram extends Program {
     this.command(path.join(__dirname, 'test_command.js'));
     // or load entire directory
     // this.commandDir(path.join(__dirname, 'command'));
+
+    // can custom yargs config, see http://yargs.js.org/docs for more
+    this.yargs.alias('h', 'help');
   }
 }
 

@@ -53,7 +53,7 @@ describe('test/my-bin.test.js', () => {
       coffee.fork(myBin, [ 'start', '--baseDir=abc' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /run start command at .*fixtures\/test-files with abc/)
+        .expect('stdout', /run start command at .*test-files with abc/)
         .expect('stdout', /rawArgv: \["--baseDir=abc"]/)
         .expect('code', 0)
         .end(done);
@@ -63,7 +63,7 @@ describe('test/my-bin.test.js', () => {
       coffee.fork(myBin, [ 'test', '--require=co-mocha' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /run mocha test at .*fixtures\/test-files with co-mocha/)
+        .expect('stdout', /run mocha test at .*test-files with co-mocha/)
         .expect('stdout', /rawArgv: \["--require=co-mocha"]/)
         .expect('stdout', /node version: v\d+\.\d+\.\d+/)
         .expect('code', 0)
@@ -95,7 +95,7 @@ describe('test/my-bin.test.js', () => {
       coffee.fork(myBin, [ 'debug' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /run debug command at .*fixtures\/test-files/)
+        .expect('stdout', /run debug command at .*test-files/)
         .expect('code', 0)
         .end(done);
     });
@@ -104,7 +104,7 @@ describe('test/my-bin.test.js', () => {
       coffee.fork(myBin, [ 'init' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /run init command at .*fixtures\/test-files/)
+        .expect('stdout', /run init command at .*test-files/)
         .expect('code', 0)
         .end(done);
     });
@@ -131,28 +131,33 @@ describe('test/my-bin.test.js', () => {
     });
 
     it('should kill child process', done => {
-      const app = coffee.fork(myBin, [ 'fork', '--target=loop_script' ], { cwd });
+      const app = coffee.fork(myBin, [ 'fork', '--target=loop_script' ], { cwd, env: process.env });
+      app
+        // .debug()
+        // .coverage(false);
+        .expect('stdout', /\[child] echo \d+ 1/)
+        .expect('stdout', /\[child] echo \d+ 2/);
 
-      // app.coverage(false)
-      app.debug();
+      if (process.platform !== 'win32') {
+        app
+          .expect('stdout', /\[child] exit with code 0/)
+          .expect('stdout', /recieve singal SIGINT/)
+          .expect('code', 0);
+      }
+
+      app.end(done);
 
       setTimeout(() => {
-        app.proc.kill('SIGQUIT');
-        app
-          .expect('stdout', /\[child] echo \d+ 2/)
-          .expect('stdout', /recieve singal SIGQUIT/)
-          .expect('stdout', /\[child] exit with code 0/)
-          .expect('code', 0)
-          .end(done);
+        app.proc.kill('SIGINT');
       }, 3000);
     });
 
     it('should `helper.npmInstall`', done => {
-      coffee.fork(myBin, [ 'install', '--target=egg-init-config' ], { cwd })
+      coffee.fork(myBin, [ 'install', '--target=egg-init-config' ], { cwd, env: process.env })
         // .debug()
-        // .coverage(false)
-        .expect('stdout', /npm i egg-init-config/)
+        // .coverage(false);
         .expect('stdout', /egg-init-config@\d+\.\d+\.\d+/)
+        .expect('stdout', /install egg-init-config done/)
         .expect('code', 0)
         .end(done);
     });

@@ -18,7 +18,7 @@ class TestCommand extends Command {
   * run({ cwd, argv, rawArgv }) {
     console.log('run mocha test at %s with %s', cwd, argv.require);
     console.log('rawArgv: %j', rawArgv);
-    yield this.helper.forkNode(path.join(__dirname, 'start_cluster.js'));
+    yield this.helper.forkNode(path.join(__dirname, './scripts/test_script'));
   }
 }
 

@@ -1,11 +1,14 @@
 'use strict';
 
 const path = require('path');
+const rimraf = require('rimraf');
 const coffee = require('coffee');
 
 describe('test/my-bin.test.js', () => {
   const myBin = require.resolve('./fixtures/my-bin/bin/my-bin.js');
   const cwd = path.join(__dirname, 'fixtures/test-files');
+
+  after(() => rimraf.sync(path.join(cwd, 'node_modules')));
 
   describe('global options', () => {
     it('should show help message', done => {
@@ -27,6 +30,8 @@ describe('test/my-bin.test.js', () => {
         .expect('stdout', /Commands:\s*\n/)
         .expect('stdout', /test\s*unit test.*aliases: cov/)
         .expect('stdout', /start\s*start app/)
+        .expect('stdout', /Options:\s*\n/)
+        .expect('stdout', /--version\s*Show version number/)
         .expect('stdout', /Examples:\s*\n/)
         .expect('stdout', /Usage: my-bin <command>/)
         .expect('stdout', /my-bin start\s*--baseDir=..\/dist.*run app at dist dir/)
@@ -78,7 +83,7 @@ describe('test/my-bin.test.js', () => {
       coffee.fork(myBin, [ 'error' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stderr', /\[my-bin] run command \[error] with \[] at .* got error/)
+        .expect('stderr', /\[my-bin] run command \[error] with \[].*got error/)
         .expect('stderr', /something wrong with error-command/)
         .expect('code', 1)
         .end(done);
@@ -104,4 +109,53 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
   });
+
+  describe('helper', () => {
+    it('should `helper.forkNode`', done => {
+      coffee.fork(myBin, [ 'fork', '--target=test_script' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /process.argv: \["--target=test_script","--from=test"]/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('should `helper.forkNode` with error', done => {
+      coffee.fork(myBin, [ 'fork', '--target=error_script' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stderr', /this is an error/)
+        .expect('stderr', /error_script --target=error_script,--from=test exit with code 1/)
+        .expect('code', 1)
+        .end(done);
+    });
+
+    it('should kill child process', done => {
+      const app = coffee.fork(myBin, [ 'fork', '--target=loop_script' ], { cwd });
+
+      // app.coverage(false)
+      app.debug();
+
+      setTimeout(() => {
+        app.proc.kill('SIGQUIT');
+        app
+          .expect('stdout', /\[child] echo \d+ 2/)
+          .expect('stdout', /recieve singal SIGQUIT/)
+          .expect('stdout', /\[child] exit with code 0/)
+          .expect('code', 0)
+          .end(done);
+      }, 3000);
+    });
+
+    it('should `helper.npmInstall`', done => {
+      coffee.fork(myBin, [ 'install', '--target=egg-init-config' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /npm i egg-init-config/)
+        .expect('stdout', /egg-init-config@\d+\.\d+\.\d+/)
+        .expect('code', 0)
+        .end(done);
+    });
+  });
+
 });

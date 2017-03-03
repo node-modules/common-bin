@@ -46,6 +46,14 @@ describe('test/my-bin.test.js', () => {
         .expect('code', 0)
         .end(done);
     });
+
+    it('should show version 2.0.0 with short alias -V', done => {
+      coffee.fork(myBin, [ '-V' ], { cwd })
+        // .debug()
+        .expect('stdout', '2.0.0\n')
+        .expect('code', 0)
+        .end(done);
+    });
   });
 
   describe('command', () => {

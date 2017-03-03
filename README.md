@@ -20,7 +20,7 @@
 [download-image]: https://img.shields.io/npm/dm/common-bin.svg?style=flat-square
 [download-url]: https://npmjs.org/package/common-bin
 
-Abstraction bin tool.
+Abstraction bin tool wrap [yarg](http://yargs.js.org/)
 
 ---
 
@@ -46,6 +46,8 @@ to create a new `my-bin` tool.
 
 #### [MyProgram](test/fixtures/my-bin/lib/my_program.js)
 
+You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
+
 ```js
 const Program = require('common-bin').Program;
 const pkg = require('../package.json';
@@ -59,8 +61,8 @@ class MyProgram extends Program {
     // or load entire directory
     // this.commandDir(path.join(__dirname, 'command'));
 
-    // can custom yargs config, see http://yargs.js.org/docs for more
-    this.yargs.alias('h', 'help');
+    // so you can use `my-bin -V`
+    this.yargs.alias('V', 'version');
   }
 }
 

@@ -18,10 +18,9 @@ class MyProgram extends Program {
     this.commandProps.utils = { from: 'china' };
 
     this.yargs
-      .alias('h', 'help');
+      .alias('V', 'version');
 
     this.command(path.join(__dirname, 'start_command.js'));
-    this.command(path.join(__dirname, 'test_command.js'));
     this.command(path.join(__dirname, 'test_command.js'), commandObj => {
       commandObj.aliases = [ 'cov' ];
       return commandObj;

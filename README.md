@@ -57,7 +57,7 @@ class MyProgram extends Program {
     this.version = pkg.version;
     this.command(path.join(__dirname, 'test_command.js'));
     // or load entire directory
-    this.commandDir(path.join(__dirname, 'command'));
+    // this.commandDir(path.join(__dirname, 'command'));
   }
 }
 
@@ -109,6 +109,78 @@ $ my-bin test
 
 run mocha test at /foo/bar with {}
 ```
+
+## Migrating from v1 to v2
+
+### bin
+
+- `run` method is not longer exist.
+
+```js
+// 1.x
+const run = require('common-bin').run;
+run(require('../lib/my_program'));
+
+// 2.x
+const Program = require('common-bin').Program;
+new Program().exec();
+```
+
+### Program
+
+- use `command()` or `commandDir()` to replace `addCommand`.
+- command name is not need to provide as first argument, it should be a property of `Command` itself.
+
+```js
+// 1.x
+this.addCommand('test', path.join(__dirname, 'test_command.js'));
+
+// 2.x
+this.command(path.join(__dirname, 'test_command.js'));
+// or load the entire directory
+this.commandDir(path.join(__dirname, 'command'));
+```
+
+### Command
+
+- `help()` is not use anymore.
+- should provide `name`, `description`, `options`.
+- `run()` arguments had change to object, recommand to use destructuring style - `{ cwd, argv, rawArgv }`
+  - `argv` is an object parse by `yargs`, **not `args`.**
+  - `rawArgv` is equivalent to old `args`
+
+```js
+// 1.x
+class TestCommand extends Command {
+  * run(cwd, args) {
+    console.log('run mocha test at %s with %j', cwd, args);
+  }
+}
+
+// 2.x
+class TestCommand extends Command {
+  constructor(props) {
+    super(props);
+    this.name = 'test';
+    this.description = 'unit test';
+    // my-bin test --require=co-mocha
+    this.options = {
+      require: {
+        description: 'require module name',
+      },
+    };
+  }
+
+  * run({ cwd, argv, rawArgv }) {
+    console.log('run mocha test at %s with %j', cwd, argv);
+  }
+}
+```
+
+### helper
+
+- `getIronNodeBin` is remove.
+- `child.kill` now support signal.
 
 ## License
 

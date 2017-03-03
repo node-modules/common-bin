@@ -14,7 +14,6 @@ class Program extends BaseProgram {
     // default command showcase
     this.command(path.join(__dirname, 'single_command.js'));
   }
-
 }
 
 module.exports = Program;

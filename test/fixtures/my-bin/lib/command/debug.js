@@ -1,10 +1,10 @@
 'use strict';
 
-const Command = require('../../../../..').Command;
+const Command = require('../../../../..');
 
 class DebugCommand extends Command {
-  constructor(opts) {
-    super(opts);
+  constructor() {
+    super();
     this.name = 'debug';
     this.description = 'debug app';
   }

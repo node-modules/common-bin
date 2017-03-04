@@ -1,11 +1,11 @@
 'use strict';
 
-const Command = require('../../../../..').Command;
+const Command = require('../../../../..');
 const path = require('path');
 
 class ForkCommand extends Command {
-  constructor(opts) {
-    super(opts);
+  constructor() {
+    super();
     this.name = 'fork';
     this.description = 'fork node process';
   }

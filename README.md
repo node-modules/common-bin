@@ -34,49 +34,52 @@ $ npm i common-bin --save-dev
 
 You maybe need a custom xxx-bin to implement more custom features.
 
-Now you can implement a [Program](lib/program.js) sub class,
-and [Command](lib/command.js) sub class to do that.
+Now you can implement a [Command](lib/command.js) sub class to do that.
 
 ### Example: Add `test` for unittest runner
 
-This example will show you how to add a new `TestCommand` and `MyProgram`
-to create a new `my-bin` tool.
+This example will show you how to add a new `TestCommand` to create a new `my-bin` tool.
 
 - Full demo: [my-bin](test/fixtures/my-bin)
 
-#### [MyProgram](test/fixtures/my-bin/lib/my_program.js)
+#### [Program](test/fixtures/my-bin/lib/program.js)
+
+`Program` extend `Command`, and use as your bin start point.
 
 You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
 
 ```js
-const Program = require('common-bin').Program;
+const Command = require('common-bin');
 const pkg = require('../package.json';
 
-class MyProgram extends Program {
+class Program extends Command {
   constructor() {
     super();
-    this.name = pkg.name;
+    this.binName = pkg.name;
     this.version = pkg.version;
-    this.command(path.join(__dirname, 'test_command.js'));
+
+    // load your command file
+    this.loadCommand(path.join(__dirname, 'test_command'));
+
     // or load entire directory
-    // this.commandDir(path.join(__dirname, 'command'));
+    // this.loadCommand(path.join(__dirname, 'command'));
 
     // so you can use `my-bin -V`
     this.yargs.alias('V', 'version');
   }
 }
 
-module.exports = MyProgram;
+module.exports = Program;
 ```
 
 #### [TestCommand](test/fixtures/my-bin/lib/test_command.js)
 
 ```js
-const Command = require('common-bin').Command;
+const Command = require('common-bin');
 
 class TestCommand extends Command {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.name = 'test';
     this.description = 'unit test';
     // see http://yargs.js.org/docs/#methods-optionskey-opt
@@ -88,7 +91,7 @@ class TestCommand extends Command {
   }
 
   * run({ cwd, argv, rawArgv }) {
-    console.log('run mocha test at %s with %j', cwd, argv);
+    console.log('run mocha test at %s with %s', cwd, argv.require);
   }
 }
 
@@ -102,7 +105,7 @@ module.exports = TestCommand;
 
 'use strict';
 
-const Program = require('../lib/my_program');
+const Program = require('../lib/program');
 
 new Program().exec();
 ```
@@ -110,10 +113,50 @@ new Program().exec();
 #### Run result
 
 ```bash
-$ my-bin test
+$ my-bin test --require=co-mocha
 
-run mocha test at /foo/bar with {}
+run mocha test at /foo/bar with co-mocha
 ```
+
+## Advanced Usage
+
+### sub command
+
+Also support sub command such as `my-bin init controller --name=home`.
+
+```js
+// init.js
+class InitCommand extends Command {
+  constructor() {
+    super();
+    this.name = 'init';
+    this.description = 'sub command showcase';
+
+    // load sub command
+    this.options = () => this.loadCommand(path.join(__dirname, 'sub'));
+  }
+}
+
+// sub/controller.js
+class ControllerCommand extends Command {
+  constructor() {
+    super();
+    this.name = 'controller';
+    this.description = 'sub controller';
+    this.options = {
+      name: {
+        description: 'controller name',
+      },
+    };
+  }
+
+  * run({ argv }) {
+    console.log('create controller %s', argv.name);
+  }
+}
+```
+
+see [sub.js](test/fixtures/my-bin/lib/command/sub.js) for more detail.
 
 ## Migrating from v1 to v2
 
@@ -127,13 +170,14 @@ const run = require('common-bin').run;
 run(require('../lib/my_program'));
 
 // 2.x
-const Program = require('common-bin').Program;
+const Program = require('common-bin');
 new Program().exec();
 ```
 
 ### Program
 
-- use `command()` or `commandDir()` to replace `addCommand`.
+- `Program` is just a `Command` sub class.
+- use `loadCommand()` to replace `addCommand`.
 - command name is not need to provide as first argument, it should be a property of `Command` itself.
 
 ```js
@@ -141,9 +185,9 @@ new Program().exec();
 this.addCommand('test', path.join(__dirname, 'test_command.js'));
 
 // 2.x
-this.command(path.join(__dirname, 'test_command.js'));
+this.loadCommand(path.join(__dirname, 'test_command.js'), opts);
 // or load the entire directory
-this.commandDir(path.join(__dirname, 'command'));
+this.loadCommand(path.join(__dirname, 'command'));
 ```
 
 ### Command
@@ -164,8 +208,8 @@ class TestCommand extends Command {
 
 // 2.x
 class TestCommand extends Command {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.name = 'test';
     this.description = 'unit test';
     // my-bin test --require=co-mocha

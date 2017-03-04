@@ -78,11 +78,22 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
+    it('should `my-bin cov` success', done => {
+      coffee.fork(myBin, [ 'cov', '--require=co-mocha' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /run mocha test at .*test-files with co-mocha/)
+        .expect('stdout', /rawArgv: \["--require=co-mocha"]/)
+        .expect('stdout', /node version: v\d+\.\d+\.\d+/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('should echo with helper fn `my-bin echo --name=bin`', done => {
       coffee.fork(myBin, [ 'echo', '--name=bin' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /hi, bin china/)
+        .expect('stdout', /\[my-bin] hi, bin/)
         .expect('code', 0)
         .end(done);
     });
@@ -91,7 +102,7 @@ describe('test/my-bin.test.js', () => {
       coffee.fork(myBin, [ 'error' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stderr', /\[my-bin] run command \[error] with \[].*got error/)
+        .expect('stderr', /run command \[error] with \[].*got error/)
         .expect('stderr', /something wrong with error-command/)
         .expect('code', 1)
         .end(done);
@@ -171,4 +182,14 @@ describe('test/my-bin.test.js', () => {
     });
   });
 
+  describe('sub command', () => {
+    it('should `my-bin sub add` success', done => {
+      coffee.fork(myBin, [ 'sub', 'add' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /run sub add command at .*test-files/)
+        .expect('code', 0)
+        .end(done);
+    });
+  });
 });

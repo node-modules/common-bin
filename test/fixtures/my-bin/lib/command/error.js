@@ -1,10 +1,10 @@
 'use strict';
 
-const Command = require('../../../../..').Command;
+const Command = require('../../../../..');
 
 class ErrorCommand extends Command {
-  constructor(opts) {
-    super(opts);
+  constructor() {
+    super();
     this.name = 'error';
     this.description = 'throw error';
   }

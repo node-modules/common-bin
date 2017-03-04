@@ -1,10 +1,10 @@
 'use strict';
 
-const Command = require('../../../../..').Command;
+const Command = require('../../../../..');
 
 class EchoCommand extends Command {
-  constructor(opts) {
-    super(opts);
+  constructor() {
+    super();
     this.name = 'echo';
     this.description = 'echo message';
     this.options = {
@@ -15,7 +15,8 @@ class EchoCommand extends Command {
   }
 
   * run({ argv }) {
-    console.log(this.helper.echo(argv.name), this.utils.from);
+    console.log(argv);
+    console.log(`[${this.binName}] ${this.helper.echo(argv.name)}`);
   }
 }
 

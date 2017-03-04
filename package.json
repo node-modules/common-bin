@@ -6,12 +6,12 @@
   "dependencies": {
     "co": "^4.6.0",
     "debug": "^2.6.1",
-    "yargs": "next"
+    "yargs": "^7.0.1"
   },
   "devDependencies": {
     "autod": "^2.7.1",
     "coffee": "^3.3.0",
-    "eslint": "^3.16.1",
+    "eslint": "^3.17.0",
     "eslint-config-egg": "^3.2.0",
     "istanbul": "^0.4.5",
     "mm": "^2.1.0",

@@ -1,12 +1,12 @@
 'use strict';
 
-const BaseCommand = require('../../../..').Command;
+const Command = require('../../../..');
 
-class Command extends BaseCommand {
-  constructor(opts) {
-    super(opts);
+class DefaultCommand extends Command {
+  constructor() {
+    super();
     // default command showcase
-    this.name = '*';
+    this.name = [ 'test', '*' ];
     this.description = 'the only one default command';
     this.options = {
       baseDir: {
@@ -20,4 +20,4 @@ class Command extends BaseCommand {
   }
 }
 
-module.exports = Command;
+module.exports = DefaultCommand;

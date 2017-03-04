@@ -1,10 +1,10 @@
 'use strict';
 
-const Command = require('../../../..').Command;
+const Command = require('../../../..');
 
 class StartCommand extends Command {
-  constructor(opts) {
-    super(opts);
+  constructor() {
+    super();
     this.name = [ 'start' ];
     this.description = 'start app';
     this.example = [

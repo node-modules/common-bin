@@ -2,6 +2,6 @@
 
 'use strict';
 
-const Program = require('../lib/single_program');
+const Program = require('..');
 
 new Program().exec();

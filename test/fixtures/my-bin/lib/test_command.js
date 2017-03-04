@@ -1,11 +1,11 @@
 'use strict';
 
-const Command = require('../../../..').Command;
+const Command = require('../../../..');
 const path = require('path');
 
 class TestCommand extends Command {
-  constructor(opts) {
-    super(opts);
+  constructor() {
+    super();
     this.name = 'test';
     this.description = 'unit test';
     this.options = {
@@ -18,6 +18,7 @@ class TestCommand extends Command {
   * run({ cwd, argv, rawArgv }) {
     console.log('run mocha test at %s with %s', cwd, argv.require);
     console.log('rawArgv: %j', rawArgv);
+    console.log('argv: %j', argv);
     yield this.helper.forkNode(path.join(__dirname, './scripts/test_script'));
   }
 }

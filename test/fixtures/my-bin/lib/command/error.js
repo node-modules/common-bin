@@ -1,6 +1,6 @@
 'use strict';
 
-const Command = require('../../../../..');
+const Command = require('../../../../..').Command;
 
 class ErrorCommand extends Command {
   constructor() {

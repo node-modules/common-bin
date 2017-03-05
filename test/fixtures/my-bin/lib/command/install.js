@@ -1,13 +1,18 @@
 'use strict';
 
 const path = require('path');
-const Command = require('../../../../..');
+const Command = require('../../../../..').Command;
 
 class InstallCommand extends Command {
   constructor() {
     super();
     this.name = 'install';
     this.description = 'run npm install';
+    this.options = {
+      name: {
+        description: 'package name',
+      },
+    };
   }
 
   * run({ cwd, argv }) {

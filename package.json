@@ -6,6 +6,7 @@
   "dependencies": {
     "co": "^4.6.0",
     "debug": "^2.6.1",
+    "loading": "^1.13.1",
     "yargs": "^7.0.1"
   },
   "devDependencies": {

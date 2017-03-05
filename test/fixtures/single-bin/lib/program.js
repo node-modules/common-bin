@@ -1,20 +1,23 @@
 'use strict';
 
-const path = require('path');
-const Command = require('../../../..');
+const BaseProgram = require('../../../..').Program;
 const pkg = require('../package.json');
 
-class Program extends Command {
+class Program extends BaseProgram {
   constructor() {
     super();
-    this.binName = pkg.name;
+    this.name = pkg.name;
     this.version = pkg.version;
 
-    // default command showcase
-    this.loadCommand(path.join(__dirname, 'single_command.js'));
+    this.options = {
+      baseDir: {
+        description: 'target directory',
+      },
+    };
+  }
 
-    this.yargs
-      .usage(`Usage: ${this.binName} --baseDir=<target dir>`);
+  * run(context) {
+    console.log('run default command at %s', context.argv.baseDir);
   }
 }
 

@@ -11,44 +11,32 @@ describe('test/my-bin.test.js', () => {
   after(() => rimraf.sync(path.join(cwd, 'node_modules')));
 
   describe('global options', () => {
-    it('should show help message', done => {
+    it('my-bin --help', done => {
       coffee.fork(myBin, [ '--help' ], { cwd })
         // .debug()
-        .expect('stdout', /Commands:\s*\n/)
-        .expect('stdout', /test\s*unit test.*aliases: cov/)
-        .expect('stdout', /start\s*start app/)
-        .expect('stdout', /Examples:\s*\n/)
-        .expect('stdout', /Usage: my-bin <command>/)
-        .expect('stdout', /my-bin start\s*--baseDir=..\/dist.*run app at dist dir/)
+        .expect('stdout', /Usage: my-bin <command> \[options]/)
+        .expect('stdout', /Commands:/)
+        .expect('stdout', /add <type> <name>.*add a controller.*aliases: create/)
+        .notExpect('stdout', /start-cluster/)
+        .notExpect('stdout', /not-register/)
+        .expect('stdout', /Options:/)
+        .expect('stdout', /-h, --help.*Show help.*boolean/)
         .expect('code', 0)
         .end(done);
     });
 
-    it('should show help message with short alias -h', done => {
+    it('my-bin -h', done => {
       coffee.fork(myBin, [ '-h' ], { cwd })
         // .debug()
-        .expect('stdout', /Commands:\s*\n/)
-        .expect('stdout', /test\s*unit test.*aliases: cov/)
-        .expect('stdout', /start\s*start app/)
-        .expect('stdout', /Options:\s*\n/)
-        .expect('stdout', /--version\s*Show version number/)
-        .expect('stdout', /Examples:\s*\n/)
-        .expect('stdout', /Usage: my-bin <command>/)
-        .expect('stdout', /my-bin start\s*--baseDir=..\/dist.*run app at dist dir/)
+        .expect('stdout', /Usage: my-bin <command> \[options]/)
+        .expect('stdout', /Commands:/)
+        .expect('stdout', /Options:/)
         .expect('code', 0)
         .end(done);
     });
 
-    it('should show version 2.0.0', done => {
+    it('my-bin --version', done => {
       coffee.fork(myBin, [ '--version' ], { cwd })
-        // .debug()
-        .expect('stdout', '2.0.0\n')
-        .expect('code', 0)
-        .end(done);
-    });
-
-    it('should show version 2.0.0 with short alias -V', done => {
-      coffee.fork(myBin, [ '-V' ], { cwd })
         // .debug()
         .expect('stdout', '2.0.0\n')
         .expect('code', 0)
@@ -57,74 +45,77 @@ describe('test/my-bin.test.js', () => {
   });
 
   describe('command', () => {
-    it('should `my-bin start` success', done => {
+    it('my-bin start', done => {
       coffee.fork(myBin, [ 'start', '--baseDir=abc' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /run start command at .*test-files with abc/)
-        .expect('stdout', /rawArgv: \["--baseDir=abc"]/)
+        .expect('stdout', /run start command at abc with port 7001/)
+        .expect('stdout', /start server with \["--port","7001"]/)
         .expect('code', 0)
         .end(done);
     });
 
-    it('should `my-bin test` success', done => {
-      coffee.fork(myBin, [ 'test', '--require=co-mocha' ], { cwd })
+    it('my-bin start --port', done => {
+      coffee.fork(myBin, [ 'start', '--port=8000' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /run mocha test at .*test-files with co-mocha/)
-        .expect('stdout', /rawArgv: \["--require=co-mocha"]/)
-        .expect('stdout', /node version: v\d+\.\d+\.\d+/)
+        .expect('stdout', /run start command at .*test-files with port 8000/)
+        .expect('stdout', /start server with \["--port","8000"]/)
         .expect('code', 0)
         .end(done);
     });
 
-    it('should `my-bin cov` success', done => {
-      coffee.fork(myBin, [ 'cov', '--require=co-mocha' ], { cwd })
+    it('my-bin add contoller test', done => {
+      coffee.fork(myBin, [ 'add', 'controller', 'test' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /run mocha test at .*test-files with co-mocha/)
-        .expect('stdout', /rawArgv: \["--require=co-mocha"]/)
-        .expect('stdout', /node version: v\d+\.\d+\.\d+/)
+        .expect('stdout', /add controller test with class style/)
         .expect('code', 0)
         .end(done);
     });
 
-    it('should echo with helper fn `my-bin echo --name=bin`', done => {
-      coffee.fork(myBin, [ 'echo', '--name=bin' ], { cwd })
+    it('should support alias - `my-bin create contoller test`', done => {
+      coffee.fork(myBin, [ 'create', 'controller', 'test' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /\[my-bin] hi, bin/)
+        .expect('stdout', /add controller test with class style/)
         .expect('code', 0)
+        .end(done);
+    });
+
+    it('should support arguments - `my-bin add service test --style=exports`', done => {
+      coffee.fork(myBin, [ 'add', 'service', 'test', '--style=exports' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /add service test with exports style/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('should validate arguments - `my-bin add service`', done => {
+      coffee.fork(myBin, [ 'add', 'service' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stderr', /Not enough non-option arguments/)
+        .expect('code', 1)
+        .end(done);
+    });
+
+    it('should check option value - `my-bin add service test --style=abc`', done => {
+      coffee.fork(myBin, [ 'add', 'service', 'test', '--style=abc' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stderr', /Invalid values/)
+        .expect('code', 1)
         .end(done);
     });
 
     it('should catch `my-bin error`', done => {
-      coffee.fork(myBin, [ 'error' ], { cwd })
+      coffee.fork(myBin, [ 'error', '--test=abc' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stderr', /run command \[error] with \[].*got error/)
-        .expect('stderr', /something wrong with error-command/)
+        .expect('stderr', /\[my-bin] run command error with \["--test=abc"].*got error: something wrong with error-command/)
         .expect('code', 1)
-        .end(done);
-    });
-  });
-
-  describe('command dir', () => {
-    it('should `my-bin debug` success', done => {
-      coffee.fork(myBin, [ 'debug' ], { cwd })
-        // .debug()
-        // .coverage(false)
-        .expect('stdout', /run debug command at .*test-files/)
-        .expect('code', 0)
-        .end(done);
-    });
-
-    it('should `my-bin init` success', done => {
-      coffee.fork(myBin, [ 'init' ], { cwd })
-        // .debug()
-        // .coverage(false)
-        .expect('stdout', /run init command at .*test-files/)
-        .expect('code', 0)
         .end(done);
     });
   });
@@ -177,17 +168,6 @@ describe('test/my-bin.test.js', () => {
         // .coverage(false);
         .expect('stdout', /egg-init-config@\d+\.\d+\.\d+/)
         .expect('stdout', /install egg-init-config done/)
-        .expect('code', 0)
-        .end(done);
-    });
-  });
-
-  describe('sub command', () => {
-    it('should `my-bin sub add` success', done => {
-      coffee.fork(myBin, [ 'sub', 'add' ], { cwd })
-        // .debug()
-        // .coverage(false)
-        .expect('stdout', /run sub add command at .*test-files/)
         .expect('code', 0)
         .end(done);
     });

@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/program');
+exports.Program = require('./lib/program');

@@ -2,6 +2,9 @@
   "name": "my-bin",
   "version": "2.0.0",
   "bin": {
-    "my-bin": "bin/my-bin.js"
+    "my-init": "bin/my-bin.js"
+  },
+  "scripts": {
+    "init": "node bin/my-bin"
   }
 }

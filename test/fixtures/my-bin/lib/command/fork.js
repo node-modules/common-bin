@@ -1,6 +1,6 @@
 'use strict';
 
-const Command = require('../../../../..');
+const Command = require('../../../../..').Command;
 const path = require('path');
 
 class ForkCommand extends Command {
@@ -8,6 +8,11 @@ class ForkCommand extends Command {
     super();
     this.name = 'fork';
     this.description = 'fork node process';
+    this.options = {
+      target: {
+        description: 'fork script file',
+      },
+    };
   }
 
   * run({ argv, rawArgv }) {

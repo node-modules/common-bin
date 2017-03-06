@@ -11,8 +11,11 @@ class Program extends BaseProgram {
     this.version = pkg.version;
     this.usage = `Usage: ${this.name} <command> [options]`;
 
-    // default command showcase
+    // load directory
     this.loadCommand(path.join(__dirname, 'command'));
+
+    // load special file
+    this.loadCommand(path.join(__dirname, 'test_command.js'));
   }
 }
 

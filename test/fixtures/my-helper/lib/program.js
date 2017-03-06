@@ -13,6 +13,8 @@ class Program extends BaseProgram {
 
     // load sub command
     this.loadCommand(path.join(__dirname, 'command'));
+
+    // TODO: custom helper
   }
 }
 

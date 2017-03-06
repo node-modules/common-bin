@@ -3,7 +3,7 @@
 const path = require('path');
 const coffee = require('coffee');
 
-describe.only('test/my-git.test.js', () => {
+describe('test/my-git.test.js', () => {
   const myBin = require.resolve('./fixtures/my-git/bin/my-git.js');
   const cwd = path.join(__dirname, 'fixtures/test-files');
   const repository = 'git@github.com:node-modules/common-bin';

@@ -10,7 +10,7 @@ class BranchCommand extends Command {
     this.options = {
       xxx: {
         description: 'code style',
-        choices: ['class', 'exports'],
+        choices: [ 'class', 'exports' ],
         default: 'class',
       },
     };

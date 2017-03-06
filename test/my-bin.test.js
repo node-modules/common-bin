@@ -11,7 +11,7 @@ describe('test/my-bin.test.js', () => {
   after(() => rimraf.sync(path.join(cwd, 'node_modules')));
 
   describe('global options', () => {
-    it.only('my-bin --help', done => {
+    it('my-bin --help', done => {
       coffee.fork(myBin, [ '--help' ], { cwd })
         .debug()
         .expect('stdout', /Usage: my-bin <command> \[options]/)

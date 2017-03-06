@@ -11,9 +11,9 @@ describe('test/my-bin.test.js', () => {
   after(() => rimraf.sync(path.join(cwd, 'node_modules')));
 
   describe('global options', () => {
-    it('my-bin --help', done => {
+    it.only('my-bin --help', done => {
       coffee.fork(myBin, [ '--help' ], { cwd })
-        // .debug()
+        .debug()
         .expect('stdout', /Usage: my-bin <command> \[options]/)
         .expect('stdout', /Commands:/)
         .expect('stdout', /add <type> <name>.*add a controller.*aliases: create/)

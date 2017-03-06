@@ -59,7 +59,7 @@ class Program extends Command {
     this.version = pkg.version;
 
     // load your command file
-    this.loadCommand(path.join(__dirname, 'test_command'));
+    this.loadCommand(path.join(__dirname, 'test_command.js'));
 
     // or load entire directory
     // this.loadCommand(path.join(__dirname, 'command'));

@@ -3,12 +3,15 @@
 const path = require('path');
 const rimraf = require('rimraf');
 const coffee = require('coffee');
+const mm = require('mm');
 
-describe.only('test/my-bin.test.js', () => {
+describe('test/my-bin.test.js', () => {
   const myBin = require.resolve('./fixtures/my-bin/bin/my-bin.js');
   const cwd = path.join(__dirname, 'fixtures/test-files');
 
   after(() => rimraf.sync(path.join(cwd, 'node_modules')));
+
+  afterEach(mm.restore);
 
   describe('global options', () => {
     it('my-bin --help', done => {
@@ -81,6 +84,45 @@ describe.only('test/my-bin.test.js', () => {
         // .coverage(false)
         .expect('stderr', /\[my-bin] run command error with \["--test=abc"].*got error: something wrong with error-command/)
         .expect('code', 1)
+        .end(done);
+    });
+  });
+
+  describe('override', () => {
+    it('my-bin cov when NOT at win32', done => {
+      coffee.fork(myBin, [ 'cov' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /run cov command/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('my-bin cov when at win32', done => {
+      coffee.fork(myBin, [ 'cov' ], {
+        cwd,
+        env: {
+          platform: 'win32',
+        },
+      })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /run test command/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it.only('`my-bin --help` when at win32', done => {
+      coffee.fork(myBin, [ '--help' ], {
+        cwd,
+        env: {
+          platform: 'win32',
+        },
+      })
+        .debug()
+        // .coverage(false)
+        .expect('stdout', /run test command/)
+        .expect('code', 0)
         .end(done);
     });
   });

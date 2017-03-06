@@ -18,6 +18,7 @@ class Program extends BaseProgram {
 
   * run(context) {
     console.log('run default command at %s', context.argv.baseDir);
+    yield super.run(context);
   }
 }
 

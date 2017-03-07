@@ -2,5 +2,5 @@
 
 'use strict';
 
-const Program = require('../lib/program');
-new Program().start();
+const Command = require('..');
+new Command().start();

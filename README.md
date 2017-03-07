@@ -46,33 +46,40 @@ This example will show you how to create a new `my-git` tool.
 test/fixtures/my-git
 ├── bin
 │   └── my-git.js
-├── lib
-│   ├── command
-│   │   ├── remote
-│   │   │   ├── add.js
-│   │   │   └── remove.js
-│   │   ├── clone.js
-│   │   └── remote.js
-│   └── program.js
+├── command
+│   ├── remote
+│   │   ├── add.js
+│   │   └── remove.js
+│   ├── clone.js
+│   └── remote.js
 ├── index.js
 └── package.json
 ```
 
-#### [Program](test/fixtures/my-git/lib/program.js)
+#### [my-git.js](test/fixtures/my-git/bin/my-git.js)
 
-`Program` extend `Command`, and use as your bin start point.
+```js
+#!/usr/bin/env node
+
+'use strict';
+
+const Command = require('..');
+new Command().start();
+```
+
+#### [Main Command](test/fixtures/my-git/index.js)
+
+Just extend `Command`, and use as your bin start point.
 
 You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
 
 ```js
-const Command = require('common-bin');
-const pkg = require('../package.json';
+const BaseCommand = require('common-bin');
+const pkg = require('./package.json';
 
-class Program extends Command {
-  constructor() {
-    super();
+class Command extends BaseCommand {
+  start() {
     this.name = pkg.name;
-    this.version = pkg.version;
     this.usage = `Usage: ${this.name} <command> [options]`;
 
     // load entire command directory
@@ -83,16 +90,18 @@ class Program extends Command {
 
     // more custom with `yargs` api, such as you can use `my-git -V`
     this.yargs.alias('V', 'version');
+
+    super.start();
   }
 }
 
-module.exports = Program;
+module.exports = Command;
 ```
 
-#### [CloneCommand](test/fixtures/my-git/lib/command/clone.js)
+#### [CloneCommand](test/fixtures/my-git/command/clone.js)
 
 ```js
-const Command = require('common-bin').Command;
+const Command = require('../');
 
 class CloneCommand extends Command {
   constructor() {
@@ -116,17 +125,6 @@ class CloneCommand extends Command {
 module.exports = CloneCommand;
 ```
 
-#### [my-git.js](test/fixtures/my-git/bin/my-git.js)
-
-```js
-#!/usr/bin/env node
-
-'use strict';
-
-const Program = require('../lib/program');
-new Program().start();
-```
-
 #### Run result
 
 ```bash
@@ -137,32 +135,13 @@ git clone gh://node-modules/common-bin to dist with depth 1
 
 ## Concept
 
-### Program
-
-Program is your command start point. It's extend `Command`.
-
-**Method:**
-
-- `start()` - start your program.
-- `loadCommand(...path)` - register the entire directory to commands.
-- `addCommand(...filePath)` - register special file with extname to command.
-- `run(context)` - the default handler when not found sub command, could be generator / async function / normal function which return promise
-- `showHelp()` - print usage message to console
-
-**Properties:**
-
-- `name` - {String} the bin name
-- `version` - {String} the bin version
-- `usage` - {String} print usage when show help
-- `helper` - {Object} helper instance
-- `yargs` - {Object} for advanced custom usage
-
 ### Command
 
 Define the main logic of command
 
 **Method:**
 
+- `start()` - start your program, only use once in your bin file.
 - `run(context)`
   - should implement this to provide command handler, will exec when not found sub command.
   - Support generator / async function / normal function which return promise.
@@ -170,17 +149,20 @@ Define the main logic of command
     - `cwd` - `process.cwd()`
     - `argv` - argv parse result by yargs, `{ _: [ 'start' ], '$0': '/usr/local/bin/common-bin', baseDir: 'simple'}`
     - `rawArgv` - the raw argv, `[ "--baseDir=simple" ]`
-- `loadCommand(...path)` - register the entire directory to commands.
-- `addCommand(...filePath)` - register special file with extname to command.
+- `loadCommand(...args)` - register the entire directory to commands, `args` will join by `path.join`
+- `addCommand(...args)` - register special file with extname to command, `args` will join by `path.join`.
+- `showHelp()` - print usage message to console.
 
 **Properties:**
 
 - `name` - {String} the command name
   - must provide this property
   - accept optional and required positional arguments, such as `clone <repository> [directory]`
+  - if this command is the main command, it's name will set as bin name.
 - `aliases` - {Array|String} the command aliases
 - `description` - {String} command description in help text, **left to empty will act like a hidden command**
 - `helper` - {Object} helper instance
+- `yargs` - {Object} for advanced custom usage
 - `options` - {Object} object declaring the options the command accepts, @see [docs](http://yargs.js.org/docs/#methods-optionskey-opt) for more detail.
 
 ```js
@@ -203,6 +185,27 @@ this.options = {
 };
 ```
 
+**Additional Properties of main command:**
+
+The properties below is only need to set at main command, could use at `start()`:
+
+- `name` - will be set as bin name.
+- `usage` - {String} print usage when show help.
+
+```js
+const pkg = require('./package.json');
+class Command extends BaseCommand {
+  start() {
+    this.name = pkg.name;
+    this.usage = `Usage: ${this.name} <command> [options]`;
+
+    // do sth such as load commands...
+
+    super.start();
+  }
+}
+```
+
 ### Helper
 
 - `forkNode(modulePath, args, opt)`
@@ -211,18 +214,19 @@ this.options = {
 **Extend:**
 
 ```js
+// index.js
 const helper = require('./helper');
-class Program extends BaseProgram {
-  constructor() {
-    super();
+class Command extends BaseCommand {
+  start() {
     this.name = pkg.name;
-    this.version = pkg.version;
 
     // load sub command
     this.loadCommand(__dirname, 'command');
 
     // custom helper
     Object.assign(this.helper, helper);
+
+    super.start();
   }
 }
 ```
@@ -231,20 +235,20 @@ class Program extends BaseProgram {
 
 ### Single Command
 
-Just need to provide `options` and `run()` at `Program`.
+Just need to provide `options` and `run()`.
 
 ```js
-class Program extends BaseProgram {
-  constructor() {
-    super();
+class Command extends BaseCommand {
+  start() {
     this.name = pkg.name;
-    this.version = pkg.version;
 
     this.options = {
       baseDir: {
         description: 'target directory',
       },
     };
+
+    super.start();
   }
 
   * run(context) {
@@ -258,7 +262,7 @@ class Program extends BaseProgram {
 Also support sub command such as `my-git remote add <name> <url> --tags`.
 
 ```js
-// test/fixtures/my-git/lib/command/remote.js
+// test/fixtures/my-git/command/remote.js
 class RemoteCommand extends Command {
   constructor() {
     super();
@@ -273,7 +277,7 @@ class RemoteCommand extends Command {
   }
 }
 
-// test/fixtures/my-git/lib/command/remote/add.js
+// test/fixtures/my-git/command/remote/add.js
 class AddCommand extends Command {
   constructor() {
     super();
@@ -295,7 +299,7 @@ class AddCommand extends Command {
 }
 ```
 
-see [remote.js](test/fixtures/my-git/lib/command/remote.js) for more detail.
+see [remote.js](test/fixtures/my-git/command/remote.js) for more detail.
 
 
 ### Async Support
@@ -334,13 +338,14 @@ const run = require('common-bin').run;
 run(require('../lib/my_program'));
 
 // 2.x
-const Program = require('common-bin');
-new Program().start();
+// require a main Command
+const Command = require('..');
+new Command().start();
 ```
 
 ### Program
 
-- `Program` is just a `Command` sub class.
+- `Program` is just a `Command` sub class, you can call it `Main Command` now.
 - `addCommand()` don't need to pass command name as first argument anymore, it should be a property of `Command` itself.
 - Recommand to use `loadCommand(...path)` to load the whole command directory.
 

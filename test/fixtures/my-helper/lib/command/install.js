@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const Command = require('../../../../..').Command;
+const Command = require('../../../../..');
 
 class InstallCommand extends Command {
   constructor() {

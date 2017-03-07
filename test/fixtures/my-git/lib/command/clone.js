@@ -1,6 +1,6 @@
 'use strict';
 
-const Command = require('../../../../..').Command;
+const Command = require('../../../../..');
 
 class CloneCommand extends Command {
   constructor() {

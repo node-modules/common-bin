@@ -1,11 +1,11 @@
 'use strict';
 
 const path = require('path');
-const BaseProgram = require('../../../..').Program;
+const Command = require('../../../..');
 const pkg = require('../package.json');
 const co = require('co');
 
-class Program extends BaseProgram {
+class Program extends Command {
   constructor() {
     super();
     this.name = pkg.name;

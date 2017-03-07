@@ -65,10 +65,10 @@ test/fixtures/my-git
 You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
 
 ```js
-const BaseProgram = require('common-bin').Program;
+const Command = require('common-bin');
 const pkg = require('../package.json';
 
-class Program extends BaseProgram {
+class Program extends Command {
   constructor() {
     super();
     this.name = pkg.name;

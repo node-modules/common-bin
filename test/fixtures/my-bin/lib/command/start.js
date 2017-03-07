@@ -1,6 +1,6 @@
 'use strict';
 
-const Command = require('../../../../..').Command;
+const Command = require('../../../../..');
 const path = require('path');
 
 class StartCommand extends Command {

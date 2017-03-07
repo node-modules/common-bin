@@ -1,10 +1,10 @@
 'use strict';
 
-const BaseProgram = require('../../../..').Program;
+const Command = require('../../../..');
 const pkg = require('../package.json');
 const helper = require('./helper');
 
-class Program extends BaseProgram {
+class Program extends Command {
   constructor() {
     super();
     this.name = pkg.name;

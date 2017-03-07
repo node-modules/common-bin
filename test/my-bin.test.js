@@ -89,7 +89,7 @@ describe('test/my-bin.test.js', () => {
   });
 
   describe('override', () => {
-    it('my-bin cov when NOT at win32', done => {
+    it('`my-bin cov` when NOT at win32', done => {
       coffee.fork(myBin, [ 'cov' ], { cwd })
         // .debug()
         // .coverage(false)
@@ -98,7 +98,7 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
-    it('my-bin cov when at win32', done => {
+    it('`my-bin cov` will be replace by `test` when at win32', done => {
       coffee.fork(myBin, [ 'cov' ], {
         cwd,
         env: {
@@ -106,20 +106,6 @@ describe('test/my-bin.test.js', () => {
         },
       })
         // .debug()
-        // .coverage(false)
-        .expect('stdout', /run test command/)
-        .expect('code', 0)
-        .end(done);
-    });
-
-    it.only('`my-bin --help` when at win32', done => {
-      coffee.fork(myBin, [ '--help' ], {
-        cwd,
-        env: {
-          platform: 'win32',
-        },
-      })
-        .debug()
         // .coverage(false)
         .expect('stdout', /run test command/)
         .expect('code', 0)

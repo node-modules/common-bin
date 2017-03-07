@@ -13,8 +13,18 @@ describe('test/my-helper.test.js', () => {
       .expect('stdout', /Commands:/)
       .expect('stdout', /fork/)
       .expect('stdout', /install/)
+      .expect('stdout', /echo/)
       .expect('stdout', /Options:/)
       .expect('stdout', /--help/)
+      .expect('code', 0)
+      .end(done);
+  });
+
+  it('should `helper.echo`', done => {
+    coffee.fork(myBin, [ 'echo', 'tz' ], { cwd })
+      // .debug()
+      // .coverage(false)
+      .expect('stdout', /hi, tz/)
       .expect('code', 0)
       .end(done);
   });

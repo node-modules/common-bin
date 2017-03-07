@@ -1,8 +1,8 @@
 'use strict';
 
-const path = require('path');
 const BaseProgram = require('../../../..').Program;
 const pkg = require('../package.json');
+const helper = require('./helper');
 
 class Program extends BaseProgram {
   constructor() {
@@ -12,9 +12,10 @@ class Program extends BaseProgram {
     this.usage = `Usage: ${this.name} <command> [options]`;
 
     // load sub command
-    this.loadCommand(path.join(__dirname, 'command'));
+    this.loadCommand(__dirname, 'command');
 
-    // TODO: custom helper
+    // custom helper
+    Object.assign(this.helper, helper);
   }
 }
 

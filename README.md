@@ -20,7 +20,7 @@
 [download-image]: https://img.shields.io/npm/dm/common-bin.svg?style=flat-square
 [download-url]: https://npmjs.org/package/common-bin
 
-Abstraction bin tool wrap [yarg](http://yargs.js.org/)
+Abstraction bin tool wrap [yargs](http://yargs.js.org/), to provide more convenient usage.
 
 ---
 
@@ -34,37 +34,38 @@ $ npm i common-bin --save-dev
 
 You maybe need a custom xxx-bin to implement more custom features.
 
-Now you can implement a [Command](lib/command.js) sub class to do that.
+Now you can implement a [Program](lib/program.js) sub class, and [Command](lib/command.js) sub class to do that.
 
-### Example: Add `test` for unittest runner
+### Example: Write your own `git` command
 
-This example will show you how to add a new `TestCommand` to create a new `my-bin` tool.
+This example will show you how to create a new `my-git` tool.
 
-- Full demo: [my-bin](test/fixtures/my-bin)
+- Full demo: [my-git](test/fixtures/my-git)
 
-#### [Program](test/fixtures/my-bin/lib/program.js)
+#### [Program](test/fixtures/my-git/lib/program.js)
 
 `Program` extend `Command`, and use as your bin start point.
 
 You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
 
 ```js
-const Command = require('common-bin');
+const BaseProgram = require('common-bin').Program;
 const pkg = require('../package.json';
 
-class Program extends Command {
+class Program extends BaseProgram {
   constructor() {
     super();
-    this.binName = pkg.name;
+    this.name = pkg.name;
     this.version = pkg.version;
+    this.usage = `Usage: ${this.name} <command> [options]`;
 
-    // load your command file
-    this.loadCommand(path.join(__dirname, 'test_command.js'));
+    // load entire command directory
+    this.loadCommand(path.join(__dirname, 'command'));
 
-    // or load entire directory
-    // this.loadCommand(path.join(__dirname, 'command'));
+    // or load special command file
+    // this.loadCommand(path.join(__dirname, 'test_command.js'));
 
-    // so you can use `my-bin -V`
+    // more custom with `yargs` api, such as you can use `my-git -V`
     this.yargs.alias('V', 'version');
   }
 }
@@ -72,33 +73,34 @@ class Program extends Command {
 module.exports = Program;
 ```
 
-#### [TestCommand](test/fixtures/my-bin/lib/test_command.js)
+#### [CloneCommand](test/fixtures/my-git/lib/command/clone.js)
 
 ```js
-const Command = require('common-bin');
+const Command = require('common-bin').Command;
 
-class TestCommand extends Command {
+class CloneCommand extends Command {
   constructor() {
     super();
-    this.name = 'test';
-    this.description = 'unit test';
-    // see http://yargs.js.org/docs/#methods-optionskey-opt
+    this.name = 'clone <repository> [directory]';
+    this.description = 'Clone a repository into a new directory';
+
     this.options = {
-      require: {
-        description: 'require module name',
+      depth: {
+        type: 'number',
+        description: 'Create a shallow clone with a history truncated to the specified number of commits',
       },
     };
   }
 
-  * run({ cwd, argv, rawArgv }) {
-    console.log('run mocha test at %s with %s', cwd, argv.require);
+  * run({ argv }) {
+    console.log('git clone %s to %s with depth %d', argv.repository, argv.directory, argv.depth);
   }
 }
 
-module.exports = TestCommand;
+module.exports = CloneCommand;
 ```
 
-#### [my-bin.js](test/fixtures/my-bin/bin/my-bin.js)
+#### [my-git.js](test/fixtures/my-git/bin/my-git.js)
 
 ```js
 #!/usr/bin/env node
@@ -106,57 +108,170 @@ module.exports = TestCommand;
 'use strict';
 
 const Program = require('../lib/program');
-
-new Program().exec();
+new Program().start();
 ```
 
 #### Run result
 
 ```bash
-$ my-bin test --require=co-mocha
+$ my-git clone gh://node-modules/common-bin dist --depth=1
 
-run mocha test at /foo/bar with co-mocha
+git clone gh://node-modules/common-bin to dist with depth 1
+```
+
+## Concept
+
+### Program
+
+Program is your command start point. It's extend `Command`.
+
+**Method:**
+
+- `start()` - start your program.
+- `loadCommand(...path)` - register commands, support directory and special file with extname.
+- `* run()` - the default handler when not found sub command.
+
+**Properties:**
+
+- `name` - {String} the bin name
+- `version` - {String} the bin version
+- `usage` - {String} print usage when show help
+- `helper` - {Object} helper instance
+- `yargs` - {Object} for advanced custom usage
+
+### Command
+
+Define the main logic of command
+
+**Method:**
+
+- `* run()` - should implement this to provide command handler, will exec when not found sub command.
+- `loadCommand(...path)` - register sub commands, support directory and special file with extname.
+
+**Properties:**
+
+- `name` - {String} the command name
+  - must provide this property
+  - accept optional and required positional arguments, such as `clone <repository> [directory]`
+- `aliases` - {Array|String} the command aliases
+- `description` - {String} command description in help text, **left to empty will act like a hidden command**
+- `helper` - {Object} helper instance
+- `options` - {Object} object declaring the options the command accepts, @see [docs](http://yargs.js.org/docs/#methods-optionskey-opt) for more detail.
+
+```js
+this.options = {
+  baseDir: {
+    alias: 'b',
+    demandOption: true,
+    description: 'the target directory',
+    coerce: str => path.resolve(prcess.cwd(), str),
+  },
+  depth: {
+    description: 'level to clone',
+    type: 'number',
+    default: 1,
+  },
+  size: {
+    description: 'choose a size',
+    choices: ['xs', 's', 'm', 'l', 'xl']
+  },
+};
+```
+
+### Helper
+
+- `* forkNode(modulePath, args, opt)`
+- `* npmInstall(npmCli, name, cwd)`
+
+**Extend:**
+
+```js
+const helper = require('./helper');
+class Program extends BaseProgram {
+  constructor() {
+    super();
+    this.name = pkg.name;
+    this.version = pkg.version;
+
+    // load sub command
+    this.loadCommand(__dirname, 'command');
+
+    // custom helper
+    Object.assign(this.helper, helper);
+  }
+}
 ```
 
 ## Advanced Usage
 
-### sub command
+### Single Command
 
-Also support sub command such as `my-bin init controller --name=home`.
+Just need to provide `options` and `*run()` at `Program`.
 
 ```js
-// init.js
-class InitCommand extends Command {
+class Program extends BaseProgram {
   constructor() {
     super();
-    this.name = 'init';
-    this.description = 'sub command showcase';
+    this.name = pkg.name;
+    this.version = pkg.version;
 
-    // load sub command
-    this.options = () => this.loadCommand(path.join(__dirname, 'sub'));
+    this.options = {
+      baseDir: {
+        description: 'target directory',
+      },
+    };
+  }
+
+  * run(context) {
+    console.log('run default command at %s', context.argv.baseDir);
+    yield super.run(context);
+  }
+}
+```
+
+### Sub Command
+
+Also support sub command such as `my-git remote add <name> <url> --tags`.
+
+```js
+// test/fixtures/my-git/lib/command/remote.js
+class RemoteCommand extends Command {
+  constructor() {
+    super();
+    this.name = 'remote';
+    this.description = 'Manage set of tracked repositories';
+    // load sub command for directory
+    this.loadCommand(path.join(__dirname, 'remote'));
+  }
+
+  * run({ argv }) {
+    console.log('run remote command with %j', argv._);
   }
 }
 
-// sub/controller.js
-class ControllerCommand extends Command {
+// test/fixtures/my-git/lib/command/remote/add.js
+class AddCommand extends Command {
   constructor() {
     super();
-    this.name = 'controller';
-    this.description = 'sub controller';
+    this.name = 'add <name> <url>';
+    this.description = 'Adds a remote named <name> for the repository at <url>';
+
     this.options = {
-      name: {
-        description: 'controller name',
+      tags: {
+        type: 'boolean',
+        default: false,
+        description: 'imports every tag from the remote repository',
       },
     };
   }
 
   * run({ argv }) {
-    console.log('create controller %s', argv.name);
+    console.log('git remote add %s to %s with tags=%s', argv.name, argv.url, argv.tags);
   }
 }
 ```
 
-see [sub.js](test/fixtures/my-bin/lib/command/sub.js) for more detail.
+see [remote.js](test/fixtures/my-git/lib/command/remote.js) for more detail.
 
 ## Migrating from v1 to v2
 
@@ -171,30 +286,31 @@ run(require('../lib/my_program'));
 
 // 2.x
 const Program = require('common-bin');
-new Program().exec();
+new Program().start();
 ```
 
 ### Program
 
 - `Program` is just a `Command` sub class.
-- use `loadCommand()` to replace `addCommand`.
-- command name is not need to provide as first argument, it should be a property of `Command` itself.
+- use `loadCommand(...path)` to replace `addCommand`.
+  - command name is not need to provide as first argument anymore, it should be a property of `Command` itself.
+  - support directory or speical file
 
 ```js
 // 1.x
 this.addCommand('test', path.join(__dirname, 'test_command.js'));
 
 // 2.x
-this.loadCommand(path.join(__dirname, 'test_command.js'), opts);
+this.loadCommand(__dirname, 'test_command.js');
 // or load the entire directory
-this.loadCommand(path.join(__dirname, 'command'));
+this.loadCommand(__dirname, 'command');
 ```
 
 ### Command
 
 - `help()` is not use anymore.
 - should provide `name`, `description`, `options`.
-- `run()` arguments had change to object, recommand to use destructuring style - `{ cwd, argv, rawArgv }`
+- `* run()` arguments had change to object, recommand to use destructuring style - `{ cwd, argv, rawArgv }`
   - `argv` is an object parse by `yargs`, **not `args`.**
   - `rawArgv` is equivalent to old `args`
 

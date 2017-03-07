@@ -1,7 +1,6 @@
 'use strict';
 
 const Command = require('../../../../..').Command;
-const path = require('path');
 
 class RemoteCommand extends Command {
   constructor() {
@@ -9,7 +8,7 @@ class RemoteCommand extends Command {
     this.name = 'remote';
     this.description = 'Manage set of tracked repositories';
 
-    this.loadCommand(path.join(__dirname, 'remote'));
+    this.loadCommand(__dirname, 'remote');
   }
 
   * run({ argv }) {

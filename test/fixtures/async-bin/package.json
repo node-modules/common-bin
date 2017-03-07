@@ -1,0 +1,10 @@
+{
+  "name": "async-bin",
+  "version": "2.0.0",
+  "bin": {
+    "my-init": "bin/async-bin.js"
+  },
+  "scripts": {
+    "init": "node bin/async-bin"
+  }
+}

@@ -3,15 +3,12 @@
 const path = require('path');
 const rimraf = require('rimraf');
 const coffee = require('coffee');
-const mm = require('mm');
 
 describe('test/my-bin.test.js', () => {
   const myBin = require.resolve('./fixtures/my-bin/bin/my-bin.js');
   const cwd = path.join(__dirname, 'fixtures/test-files');
 
   after(() => rimraf.sync(path.join(cwd, 'node_modules')));
-
-  afterEach(mm.restore);
 
   describe('global options', () => {
     it('my-bin --help', done => {

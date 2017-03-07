@@ -19,7 +19,7 @@ describe('test/single-bin.test.js', () => {
       .end(done);
   });
 
-  it('should `single-bin --baseDir=simple` success', done => {
+  it('single-bin --baseDir=simple', done => {
     coffee.fork(myBin, [ '--baseDir=simple' ], { cwd })
       // .debug()
       // .coverage(false)

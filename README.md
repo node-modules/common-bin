@@ -20,7 +20,7 @@
 [download-image]: https://img.shields.io/npm/dm/common-bin.svg?style=flat-square
 [download-url]: https://npmjs.org/package/common-bin
 
-Abstraction bin tool wrap [yargs](http://yargs.js.org/), to provide more convenient usage.
+Abstraction bin tool wrap [yargs](http://yargs.js.org/), to provide more convenient usage, support async / generator.
 
 ---
 
@@ -129,7 +129,8 @@ Program is your command start point. It's extend `Command`.
 
 - `start()` - start your program.
 - `loadCommand(...path)` - register commands, support directory and special file with extname.
-- `* run()` - the default handler when not found sub command.
+- `run(context)` - the default handler when not found sub command, could be generator / async function / normal function which return promise
+- `showHelp()` - print usage message to console
 
 **Properties:**
 
@@ -145,7 +146,13 @@ Define the main logic of command
 
 **Method:**
 
-- `* run()` - should implement this to provide command handler, will exec when not found sub command.
+- `run(context)`
+  - should implement this to provide command handler, will exec when not found sub command.
+  - Support generator / async function / normal function which return promise.
+  - `context` is `{ cwd, argv, rawArgv}`
+    - `cwd` - `process.cwd()`
+    - `argv` - argv parse result by yargs, `{ _: [ 'start' ], '$0': '/usr/local/bin/common-bin', baseDir: 'simple'}`
+    - `rawArgv` - the raw argv, `[ "--baseDir=simple" ]`
 - `loadCommand(...path)` - register sub commands, support directory and special file with extname.
 
 **Properties:**
@@ -180,8 +187,8 @@ this.options = {
 
 ### Helper
 
-- `* forkNode(modulePath, args, opt)`
-- `* npmInstall(npmCli, name, cwd)`
+- `forkNode(modulePath, args, opt)`
+- `npmInstall(npmCli, name, cwd)`
 
 **Extend:**
 
@@ -206,7 +213,7 @@ class Program extends BaseProgram {
 
 ### Single Command
 
-Just need to provide `options` and `*run()` at `Program`.
+Just need to provide `options` and `run()` at `Program`.
 
 ```js
 class Program extends BaseProgram {
@@ -224,7 +231,6 @@ class Program extends BaseProgram {
 
   * run(context) {
     console.log('run default command at %s', context.argv.baseDir);
-    yield super.run(context);
   }
 }
 ```
@@ -272,6 +278,31 @@ class AddCommand extends Command {
 ```
 
 see [remote.js](test/fixtures/my-git/lib/command/remote.js) for more detail.
+
+
+### Async Support
+
+```js
+class SleepCommand extends Command {
+  constructor() {
+    super();
+    this.name = 'sleep';
+    this.description = 'sleep showcase';
+  }
+
+  async run() {
+    await sleep('1s');
+    console.log('sleep 1s');
+  }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+```
+
+see [async-bin](test/fixtures/async-bin) for more detail.
+
 
 ## Migrating from v1 to v2
 

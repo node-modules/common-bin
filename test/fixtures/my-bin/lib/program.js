@@ -1,6 +1,5 @@
 'use strict';
 
-const path = require('path');
 const BaseProgram = require('../../../..').Program;
 const pkg = require('../package.json');
 
@@ -12,13 +11,11 @@ class Program extends BaseProgram {
     this.usage = `Usage: ${this.name} <command> [options]`;
 
     // load directory
-    this.loadCommand(path.join(__dirname, 'command'));
+    this.loadCommand(__dirname, 'command');
 
     // load special file
-    this.loadCommand(path.join(__dirname, 'test_command.js'));
-    this.loadCommand(path.join(__dirname, 'cov_command.js'));
-
-    // TODO: override test, like @ali/egg-init
+    this.addCommand(__dirname, 'test_command.js');
+    this.addCommand(__dirname, 'cov_command.js');
 
     // alias, cov -> test at win
     if (process.env.platform === 'win32') {

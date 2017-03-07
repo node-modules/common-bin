@@ -3,4 +3,4 @@
 'use strict';
 
 console.log('node version: %s', process.version);
-console.log('hi, %s', process.argv[2]);
+console.log('hi');

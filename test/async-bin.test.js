@@ -23,8 +23,9 @@ if (nodeVersion >= 7.6) {
       coffee.fork(myBin, [ '--name', 'tz' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /run async command/)
-        .expect('stdout', /hi, tz/)
+        .expect('stdout', /run async command with tz/)
+        .expect('stdout', /hi/)
+        .expect('stdout', /undefined, async, promise, generator/)
         .expect('code', 0)
         .end(done);
     });

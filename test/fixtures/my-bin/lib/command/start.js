@@ -7,6 +7,7 @@ class StartCommand extends Command {
   constructor() {
     super();
     this.name = 'start';
+    this.aliases = [ 'begin' ];
     this.description = 'start app';
     this.options = {
       port: {

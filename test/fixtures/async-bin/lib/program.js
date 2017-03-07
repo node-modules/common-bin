@@ -3,6 +3,7 @@
 const path = require('path');
 const BaseProgram = require('../../../..').Program;
 const pkg = require('../package.json');
+const co = require('co');
 
 class Program extends BaseProgram {
   constructor() {
@@ -16,8 +17,19 @@ class Program extends BaseProgram {
   }
 
   async run({ argv }) {
-    console.log('run async command');
-    await this.helper.forkNode(path.join(__dirname, './scripts/echo_script'), [ argv.name ]);
+    console.log('run async command with %s', argv.name);
+    await this.helper.forkNode(path.join(__dirname, './scripts/echo_script'));
+    await this.callFn();
+  }
+
+  callFn() {
+    return co(function* () {
+      const empty = yield this.helper.callFn('empty');
+      const async = yield this.helper.callFn(async () => Promise.resolve('async'));
+      const promise = yield this.helper.callFn(() => Promise.resolve('promise'));
+      const generator = yield this.helper.callFn(function* () { return 'generator'; });
+      console.log('%s, %s, %s, %s', empty, async, promise, generator);
+    }.bind(this));
   }
 }
 

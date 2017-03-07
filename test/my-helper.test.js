@@ -67,7 +67,7 @@ describe('test/my-helper.test.js', () => {
 
     setTimeout(() => {
       app.proc.kill('SIGINT');
-    }, 3000);
+    }, 2000);
   });
 
   it('should `helper.npmInstall`', done => {
@@ -77,6 +77,16 @@ describe('test/my-helper.test.js', () => {
       .expect('stdout', /egg-init-config@\d+\.\d+\.\d+/)
       .expect('stdout', /install egg-init-config done/)
       .expect('code', 0)
+      .end(done);
+  });
+
+  it('should `helper.npmInstall` with error', done => {
+    coffee.fork(myBin, [ 'install', '--target=common-bin-not-exist' ], { cwd, env: process.env })
+      // .debug()
+      // .coverage(false);
+      .expect('stdout', /npm i common-bin-not-exist/)
+      .expect('stderr', /npm ERR! 404/)
+      .expect('code', 1)
       .end(done);
   });
 });

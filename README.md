@@ -42,6 +42,22 @@ This example will show you how to create a new `my-git` tool.
 
 - Full demo: [my-git](test/fixtures/my-git)
 
+```bash
+test/fixtures/my-git
+├── bin
+│   └── my-git.js
+├── lib
+│   ├── command
+│   │   ├── remote
+│   │   │   ├── add.js
+│   │   │   └── remove.js
+│   │   ├── clone.js
+│   │   └── remote.js
+│   └── program.js
+├── index.js
+└── package.json
+```
+
 #### [Program](test/fixtures/my-git/lib/program.js)
 
 `Program` extend `Command`, and use as your bin start point.

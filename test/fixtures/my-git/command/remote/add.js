@@ -7,6 +7,7 @@ class AddCommand extends Command {
     super();
     this.name = 'add <name> <url>';
     this.description = 'Adds a remote named <name> for the repository at <url>';
+    this.usage = 'Usage: my-git remote add <name> <url>';
 
     this.options = {
       tags: {

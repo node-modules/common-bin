@@ -88,10 +88,22 @@ describe('test/my-git.test.js', () => {
       coffee.fork(myBin, [ 'remote', '--help' ], { cwd })
         // .debug()
         // .coverage(false)
+        .expect('stdout', /Usage:.*remote <add\/remove>/)
         .expect('stdout', /Commands:/)
         .expect('stdout', /add <name> <url>/)
         .expect('stdout', /remove <name>\s*Remove.*\[aliases: rm]/)
         .expect('stdout', /Options:/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('my-git remote add --help', done => {
+      coffee.fork(myBin, [ 'remote', 'add', '--help' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /Usage:.*remote add <name> <url>/)
+        .expect('stdout', /Options:/)
+        .expect('stdout', /--tags.*imports every tag/)
         .expect('code', 0)
         .end(done);
     });

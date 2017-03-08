@@ -160,6 +160,7 @@ Define the main logic of command
 - `aliases` - {Array|String} the command aliases
 - `description` - {String} command description in help text, **left to empty will act like a hidden command**
 - `helper` - {Object} helper instance
+- `usage` - {String} print usage when show help.
 - `yargs` - {Object} for advanced custom usage
 - `options` - {Object} object declaring the options the command accepts, @see [docs](http://yargs.js.org/docs/#methods-optionskey-opt) for more detail.
 
@@ -181,27 +182,6 @@ this.options = {
     choices: ['xs', 's', 'm', 'l', 'xl']
   },
 };
-```
-
-**Additional Properties of main command:**
-
-The properties below is only need to set at main command:
-
-- `name` - will be set as bin name.
-- `usage` - {String} print usage when show help.
-
-```js
-const Command = require('common-bin');
-const pkg = require('./package.json');
-class MainCommand extends Command {
-  constructor() {
-    super();
-    this.name = pkg.name;
-    this.usage = `Usage: ${this.name} <command> [options]`;
-
-    // do sth such as load commands...
-  }
-}
 ```
 
 ### Helper

@@ -7,6 +7,7 @@ class RemoteCommand extends Command {
     super();
     this.name = 'remote';
     this.description = 'Manage set of tracked repositories';
+    this.usage = 'Usage: my-git remote <add/remove>';
 
     this.loadCommand(__dirname, 'remote');
   }

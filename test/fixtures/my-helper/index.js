@@ -1,11 +1,12 @@
 'use strict';
 
-const BaseCommand = require('../../..');
+const Command = require('../../..');
 const pkg = require('./package.json');
 const helper = require('./lib/helper');
 
-class Command extends BaseCommand {
-  start() {
+class MainCommand extends Command {
+  constructor() {
+    super();
     this.name = pkg.name;
     this.usage = `Usage: ${this.name} <command> [options]`;
 
@@ -14,9 +15,7 @@ class Command extends BaseCommand {
 
     // custom helper
     Object.assign(this.helper, helper);
-
-    super.start();
   }
 }
 
-module.exports = Command;
+module.exports = MainCommand;

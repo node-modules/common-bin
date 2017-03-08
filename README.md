@@ -70,15 +70,16 @@ new Command().start();
 #### [Main Command](test/fixtures/my-git/index.js)
 
 Just extend `Command`, and use as your bin start point.
-
-You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
+- need to provide `name` and `usage` for bin config.
+- You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
 
 ```js
-const BaseCommand = require('common-bin');
+const Command = require('common-bin');
 const pkg = require('./package.json';
 
-class Command extends BaseCommand {
-  start() {
+class MainCommand extends Command {
+  constructor() {
+    super();
     this.name = pkg.name;
     this.usage = `Usage: ${this.name} <command> [options]`;
 
@@ -90,19 +91,16 @@ class Command extends BaseCommand {
 
     // more custom with `yargs` api, such as you can use `my-git -V`
     this.yargs.alias('V', 'version');
-
-    super.start();
   }
 }
 
-module.exports = Command;
+module.exports = MainCommand;
 ```
 
 #### [CloneCommand](test/fixtures/my-git/command/clone.js)
 
 ```js
-const Command = require('../');
-
+const Command = require('common-bin');
 class CloneCommand extends Command {
   constructor() {
     super();
@@ -187,21 +185,21 @@ this.options = {
 
 **Additional Properties of main command:**
 
-The properties below is only need to set at main command, could use at `start()`:
+The properties below is only need to set at main command:
 
 - `name` - will be set as bin name.
 - `usage` - {String} print usage when show help.
 
 ```js
+const Command = require('common-bin');
 const pkg = require('./package.json');
-class Command extends BaseCommand {
-  start() {
+class MainCommand extends Command {
+  constructor() {
+    super();
     this.name = pkg.name;
     this.usage = `Usage: ${this.name} <command> [options]`;
 
     // do sth such as load commands...
-
-    super.start();
   }
 }
 ```
@@ -215,9 +213,11 @@ class Command extends BaseCommand {
 
 ```js
 // index.js
+const Command = require('common-bin');
 const helper = require('./helper');
-class Command extends BaseCommand {
-  start() {
+class MainCommand extends Command {
+  constructor() {
+    super();
     this.name = pkg.name;
 
     // load sub command
@@ -225,8 +225,6 @@ class Command extends BaseCommand {
 
     // custom helper
     Object.assign(this.helper, helper);
-
-    super.start();
   }
 }
 ```
@@ -238,17 +236,17 @@ class Command extends BaseCommand {
 Just need to provide `options` and `run()`.
 
 ```js
-class Command extends BaseCommand {
-  start() {
+const Command = require('common-bin');
+const pkg = require('./package.json');
+class MainCommand extends Command {
+  constructor() {
+    super();
     this.name = pkg.name;
-
     this.options = {
       baseDir: {
         description: 'target directory',
       },
     };
-
-    super.start();
   }
 
   * run(context) {
@@ -354,9 +352,17 @@ new Command().start();
 this.addCommand('test', path.join(__dirname, 'test_command.js'));
 
 // 2.x
-this.addCommand(__dirname, 'test_command.js');
-// or load the entire directory
-this.loadCommand(__dirname, 'command');
+const Command = require('common-bin');
+const pkg = require('./package.json');
+class MainCommand extends Command {
+  constructor() {
+    super();
+    this.name = pkg.name;
+
+    this.addCommand(__dirname, 'test_command.js');
+    // or load the entire directory
+    this.loadCommand(__dirname, 'command');
+  });
 ```
 
 ### Command

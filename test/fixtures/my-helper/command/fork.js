@@ -1,6 +1,6 @@
 'use strict';
 
-const Command = require('..');
+const Command = require('../../../..');
 const path = require('path');
 
 class ForkCommand extends Command {

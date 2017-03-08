@@ -1,19 +1,18 @@
 'use strict';
 
 const path = require('path');
-const BaseCommand = require('../../..');
+const Command = require('../../..');
 const pkg = require('./package.json');
 const co = require('co');
 
-class Command extends BaseCommand {
-  start() {
+class MainCommand extends Command {
+  constructor() {
+    super();
     this.name = pkg.name;
     this.usage = `Usage: ${this.name} <command> [options]`;
 
     // load directory
     this.loadCommand(path.join(__dirname, 'command'));
-
-    super.start();
   }
 
   async run({ argv }) {
@@ -33,5 +32,5 @@ class Command extends BaseCommand {
   }
 }
 
-module.exports = Command;
+module.exports = MainCommand;
 

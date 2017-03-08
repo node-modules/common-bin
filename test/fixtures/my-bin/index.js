@@ -1,10 +1,11 @@
 'use strict';
 
-const BaseCommand = require('../../..');
+const Command = require('../../..');
 const pkg = require('./package.json');
 
-class Command extends BaseCommand {
-  start() {
+class MainCommand extends Command {
+  constructor() {
+    super();
     this.name = pkg.name;
     this.usage = `Usage: ${this.name} <command> [options]`;
 
@@ -19,9 +20,7 @@ class Command extends BaseCommand {
     if (process.env.platform === 'win32') {
       this.aliasMapping.set('cov', 'test');
     }
-
-    super.start();
   }
 }
 
-module.exports = Command;
+module.exports = MainCommand;

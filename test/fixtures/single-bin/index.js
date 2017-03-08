@@ -4,16 +4,14 @@ const Command = require('../../..');
 const pkg = require('./package.json');
 
 class Program extends Command {
-  start() {
+  constructor() {
+    super();
     this.name = pkg.name;
-
     this.options = {
       baseDir: {
         description: 'target directory',
       },
     };
-
-    super.start();
   }
 
   run(context) {

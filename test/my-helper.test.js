@@ -38,6 +38,15 @@ describe('test/my-helper.test.js', () => {
       .end(done);
   });
 
+  it('should `helper.callFn`', done => {
+    coffee.fork(myBin, [ 'call' ], { cwd })
+      // .debug()
+      // .coverage(false)
+      .expect('stdout', /undefined, promise, generator/)
+      .expect('code', 0)
+      .end(done);
+  });
+
   it('should `helper.forkNode` with error', done => {
     coffee.fork(myBin, [ 'fork', '--target=error_script' ], { cwd })
       // .debug()

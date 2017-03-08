@@ -23,4 +23,5 @@ class MainCommand extends Command {
   }
 }
 
-module.exports = MainCommand;
+module.exports = exports = MainCommand;
+exports.StartCommand = require('./command/start');

@@ -6,6 +6,7 @@ class TestCommand extends Command {
   constructor() {
     super();
     this.name = 'test';
+    this.aliases = undefined;
     this.description = 'test app';
   }
 

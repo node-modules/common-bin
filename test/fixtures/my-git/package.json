@@ -2,9 +2,9 @@
   "name": "my-git",
   "version": "2.0.0",
   "bin": {
-    "my-init": "bin/my-git.js"
+    "my-git": "bin/my-git.js"
   },
   "scripts": {
-    "init": "node bin/my-git"
+    "my-git": "node bin/my-git.js"
   }
 }

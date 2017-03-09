@@ -1,6 +1,7 @@
 'use strict';
 
 const Command = require('../../..');
+const path = require('path');
 const pkg = require('./package.json');
 
 class MainCommand extends Command {
@@ -13,8 +14,8 @@ class MainCommand extends Command {
     this.loadCommand(__dirname, 'command');
 
     // load special file
-    this.addCommand(__dirname, 'lib/test_command.js');
-    this.addCommand(__dirname, 'lib/cov_command.js');
+    this.addCommand(path.join(__dirname, 'lib/test_command.js'));
+    this.addCommand(path.join(__dirname, 'lib/cov_command.js'));
 
     // alias, cov -> test at win
     if (process.env.platform === 'win32') {

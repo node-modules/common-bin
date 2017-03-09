@@ -2,9 +2,6 @@
   "name": "my-helper",
   "version": "1.0.0",
   "bin": {
-    "my-init": "bin/my-helper.js"
-  },
-  "scripts": {
-    "init": "node bin/my-helper"
+    "my-helper": "bin/my-helper.js"
   }
 }

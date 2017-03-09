@@ -148,7 +148,7 @@ Define the main logic of command
     - `argv` - argv parse result by yargs, `{ _: [ 'start' ], '$0': '/usr/local/bin/common-bin', baseDir: 'simple'}`
     - `rawArgv` - the raw argv, `[ "--baseDir=simple" ]`
 - `loadCommand(...args)` - register the entire directory to commands, `args` will join by `path.join`
-- `addCommand(...args)` - register special file with extname to command, `args` will join by `path.join`.
+- `addCommand(filePath)` - register special file with extname to command.
 - `showHelp()` - print usage message to console.
 
 **Properties:**
@@ -339,7 +339,7 @@ class MainCommand extends Command {
     super();
     this.name = pkg.name;
 
-    this.addCommand(__dirname, 'test_command.js');
+    this.addCommand(path.join(__dirname, 'test_command.js'));
     // or load the entire directory
     this.loadCommand(__dirname, 'command');
   });

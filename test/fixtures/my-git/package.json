@@ -1,0 +1,10 @@
+{
+  "name": "my-git",
+  "version": "2.0.0",
+  "bin": {
+    "my-git": "bin/my-git.js"
+  },
+  "scripts": {
+    "my-git": "node bin/my-git.js"
+  }
+}

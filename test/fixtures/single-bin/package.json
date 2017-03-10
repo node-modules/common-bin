@@ -1,0 +1,7 @@
+{
+  "name": "single-bin",
+  "version": "3.0.0",
+  "bin": {
+    "single-bin": "bin/single-bin.js"
+  }
+}

@@ -4,7 +4,7 @@ const path = require('path');
 const rimraf = require('rimraf');
 const coffee = require('coffee');
 
-describe('test/my-bin.test.js', () => {
+describe.only('test/my-bin.test.js', () => {
   const myBin = require.resolve('./fixtures/my-bin/bin/my-bin.js');
   const cwd = path.join(__dirname, 'fixtures/test-files');
 

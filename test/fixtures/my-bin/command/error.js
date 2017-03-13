@@ -3,15 +3,12 @@
 const Command = require('../../../..');
 
 class ErrorCommand extends Command {
-  constructor() {
-    super();
-    this.name = 'error';
-    this.description = 'throw error';
-  }
 
   * run() {
-    throw new Error(`something wrong with ${this.name}-command`);
+    throw new Error('something wrong');
   }
+
+  get description() { return 'throw error'; }
 }
 
 module.exports = ErrorCommand;

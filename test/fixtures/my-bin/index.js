@@ -2,24 +2,23 @@
 
 const Command = require('../../..');
 const path = require('path');
-const pkg = require('./package.json');
+// const pkg = require('./package.json');
 
 class MainCommand extends Command {
   constructor() {
     super();
-    this.name = pkg.name;
-    this.usage = `Usage: ${this.name} <command> [options]`;
+    this.yargs.usage('Usage: my-bin <command> [options]');
 
     // load directory
     this.loadCommand(__dirname, 'command');
 
     // load special file
-    this.addCommand(path.join(__dirname, 'lib/test_command.js'));
-    this.addCommand(path.join(__dirname, 'lib/cov_command.js'));
+    this.addCommand('test', path.join(__dirname, 'lib/test_command.js'));
 
-    // alias, cov -> test at win
     if (process.env.platform === 'win32') {
-      this.aliasMapping.set('cov', 'test');
+      this.addCommand('cov', path.join(__dirname, 'lib/test_command.js'));
+    } else {
+      this.addCommand('cov', path.join(__dirname, 'lib/cov_command.js'));
     }
   }
 }

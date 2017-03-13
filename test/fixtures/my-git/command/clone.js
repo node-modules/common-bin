@@ -3,8 +3,8 @@
 const Command = require('../../../..');
 
 class CloneCommand extends Command {
-  constructor() {
-    super();
+  constructor(argv) {
+    super(argv);
     this.yargs.usage('clone <repository> [directory]');
 
     this.yargs.options({

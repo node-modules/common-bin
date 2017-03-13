@@ -1,17 +1,15 @@
 'use strict';
 
 const Command = require('../../..');
-const pkg = require('./package.json');
 
 class Program extends Command {
-  constructor() {
-    super();
-    this.name = pkg.name;
-    this.options = {
+  constructor(argv) {
+    super(argv);
+    this.yargs.options({
       baseDir: {
         description: 'target directory',
       },
-    };
+    });
   }
 
   run(context) {

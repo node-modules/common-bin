@@ -3,10 +3,11 @@
 const Command = require('../../../..');
 
 class RemoteCommand extends Command {
-  constructor() {
-    super();
+  constructor(argv) {
+    super(argv);
     this.yargs.usage('Usage: my-git remote <add/remove>');
     this.loadCommand(__dirname, 'remote');
+    this.aliasCommand('rm', 'remove');
   }
 
   * run({ argv }) {

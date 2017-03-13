@@ -2,14 +2,12 @@
 
 const path = require('path');
 const Command = require('../../..');
-const pkg = require('./package.json');
 const co = require('co');
 
 class MainCommand extends Command {
-  constructor() {
-    super();
-    this.name = pkg.name;
-    this.usage = `Usage: ${this.name} <command> [options]`;
+  constructor(argv) {
+    super(argv);
+    this.yargs.usage('Usage: async-bin <command> [options]');
 
     // load directory
     this.loadCommand(path.join(__dirname, 'command'));
@@ -33,4 +31,3 @@ class MainCommand extends Command {
 }
 
 module.exports = MainCommand;
-

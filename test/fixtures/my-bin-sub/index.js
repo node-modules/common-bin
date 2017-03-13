@@ -3,8 +3,8 @@
 const Command = require('../my-bin');
 
 class MainCommand extends Command {
-  constructor() {
-    super();
+  constructor(argv) {
+    super(argv);
     this.yargs.usage('Usage: my-bin-sub <command> [options]');
 
     // load directory

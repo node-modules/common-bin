@@ -73,9 +73,9 @@ describe.only('test/my-git.test.js', () => {
         .end(done);
     });
 
-    it.only('my-git clone --help', done => {
+    it('my-git clone --help', done => {
       coffee.fork(myBin, [ 'clone', '--help' ], { cwd })
-        .debug()
+        // .debug()
         // .coverage(false)
         .expect('stdout', /Options:/)
         .expect('stdout', /--depth\s*Create a shallow.*\[number]/)
@@ -91,8 +91,9 @@ describe.only('test/my-git.test.js', () => {
         // .coverage(false)
         .expect('stdout', /Usage:.*remote <add\/remove>/)
         .expect('stdout', /Commands:/)
-        .expect('stdout', /add <name> <url>/)
-        .expect('stdout', /remove <name>\s*Remove.*\[aliases: rm]/)
+        .expect('stdout', /add\s*Adds a remote named/)
+        .expect('stdout', /remove\s*Remove.*/)
+        // .expect('stdout', /remove <name>\s*Remove.*\[aliases: rm]/)
         .expect('stdout', /Options:/)
         .expect('code', 0)
         .end(done);

@@ -10,7 +10,7 @@ class MainCommand extends Command {
     this.yargs.usage('Usage: my-bin <command> [options]');
 
     // load directory
-    this.load(__dirname, 'command');
+    this.load(path.join(__dirname, 'command'));
 
     // load special file
     this.add('test', path.join(__dirname, 'lib/test_command.js'));

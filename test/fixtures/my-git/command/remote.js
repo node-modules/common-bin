@@ -1,12 +1,13 @@
 'use strict';
 
+const path = require('path');
 const Command = require('../../../..');
 
 class RemoteCommand extends Command {
   constructor(argv) {
     super(argv);
     this.yargs.usage('Usage: my-git remote <add/remove>');
-    this.load(__dirname, 'remote');
+    this.load(path.join(__dirname, 'remote'));
     this.alias('rm', 'remove');
   }
 

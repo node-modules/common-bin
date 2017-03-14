@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const Command = require('../my-bin');
 
 class MainCommand extends Command {
@@ -8,7 +9,7 @@ class MainCommand extends Command {
     this.yargs.usage('Usage: my-bin-sub <command> [options]');
 
     // load directory
-    this.load(__dirname, 'command');
+    this.load(path.join(__dirname, 'command'));
   }
 }
 

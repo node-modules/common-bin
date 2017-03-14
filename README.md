@@ -201,7 +201,7 @@ class MainCommand extends Command {
     this.name = pkg.name;
 
     // load sub command
-    this.load(__dirname, 'command');
+    this.load(path.join(__dirname, 'command'));
 
     // custom helper
     Object.assign(this.helper, helper);
@@ -341,7 +341,7 @@ class MainCommand extends Command {
 
     this.add(path.join(__dirname, 'test_command.js'));
     // or load the entire directory
-    this.load(__dirname, 'command');
+    this.load(path.join(__dirname, 'command'));
   });
 ```
 

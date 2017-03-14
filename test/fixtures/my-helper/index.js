@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const Command = require('../../..');
 const helper = require('./lib/helper');
 
@@ -9,7 +10,7 @@ class MainCommand extends Command {
     this.yargs.usage('Usage: my-helper <command> [options]');
 
     // load sub command
-    this.load(__dirname, 'command');
+    this.load(path.join(__dirname, 'command'));
 
     // custom helper
     Object.assign(this.helper, helper);

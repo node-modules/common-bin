@@ -76,7 +76,7 @@ describe('test/my-helper.test.js', () => {
 
     setTimeout(() => {
       app.proc.kill('SIGINT');
-    }, 5000);
+    }, 6000);
   });
 
   it('should `helper.npmInstall`', done => {

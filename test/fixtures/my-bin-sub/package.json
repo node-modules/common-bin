@@ -1,0 +1,7 @@
+{
+  "name": "my-bin-sub",
+  "version": "3.0.0",
+  "bin": {
+    "my-bin": "bin/my-bin-sub.js"
+  }
+}

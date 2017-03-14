@@ -1,18 +1,14 @@
 'use strict';
 
-const path = require('path');
-const Command = require('../../../..').Command;
+const Command = require('../../../..');
 
 class TestCommand extends Command {
-  * run(cwd, args) {
-    console.log('run mocha test at %s with %j', cwd, args);
-    yield this.helper.forkNode(path.join(__dirname, 'version.js'));
-    yield this.helper.getIronNodeBin('cnpm', cwd);
+
+  * run({ cwd }) {
+    console.log('run test command at %s', cwd);
   }
 
-  help() {
-    return 'unit test';
-  }
+  get description() { return 'test app'; }
 }
 
 module.exports = TestCommand;

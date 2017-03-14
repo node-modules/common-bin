@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+'use strict';
+
+console.log('start server with %j', process.argv.slice(2));
+

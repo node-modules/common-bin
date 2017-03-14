@@ -1,0 +1,7 @@
+{
+  "name": "my-helper",
+  "version": "1.0.0",
+  "bin": {
+    "my-helper": "bin/my-helper.js"
+  }
+}

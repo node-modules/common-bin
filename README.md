@@ -70,7 +70,6 @@ new Command().start();
 #### [Main Command](test/fixtures/my-git/index.js)
 
 Just extend `Command`, and use as your bin start point.
-- need to provide `name` and `usage` for bin config.
 - You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
 
 ```js
@@ -78,10 +77,9 @@ const Command = require('common-bin');
 const pkg = require('./package.json';
 
 class MainCommand extends Command {
-  constructor() {
-    super();
-    this.name = pkg.name;
-    this.usage = `Usage: ${this.name} <command> [options]`;
+  constructor(argv) {
+    super(argv);
+    this.yargs.usage('Usage: my-git <command> [options]');
 
     // load entire command directory
     this.load(path.join(__dirname, 'command'));
@@ -102,21 +100,23 @@ module.exports = MainCommand;
 ```js
 const Command = require('common-bin');
 class CloneCommand extends Command {
-  constructor() {
-    super();
-    this.name = 'clone <repository> [directory]';
-    this.description = 'Clone a repository into a new directory';
+  constructor(argv) {
+    super(argv);
 
-    this.options = {
+    this.yargs.options({
       depth: {
         type: 'number',
         description: 'Create a shallow clone with a history truncated to the specified number of commits',
       },
-    };
+    });
   }
 
   * run({ argv }) {
-    console.log('git clone %s to %s with depth %d', argv.repository, argv.directory, argv.depth);
+    console.log('git clone %s to %s with depth %d', argv._[0], argv._[1], argv.depth);
+  }
+
+  get description() {
+    return 'Clone a repository into a new directory';
   }
 }
 
@@ -147,25 +147,21 @@ Define the main logic of command
     - `cwd` - `process.cwd()`
     - `argv` - argv parse result by yargs, `{ _: [ 'start' ], '$0': '/usr/local/bin/common-bin', baseDir: 'simple'}`
     - `rawArgv` - the raw argv, `[ "--baseDir=simple" ]`
-- `load(...args)` - register the entire directory to commands, `args` will join by `path.join`
-- `addCommand(filePath)` - register special file with extname to command.
+- `load(fullPath)` - register the entire directory to commands
+- `add(name, filePath)` - register special file to command with command name
+- `alias(alias, name)` - register a command with an existing command
 - `showHelp()` - print usage message to console.
 
 **Properties:**
 
-- `name` - {String} the command name
-  - must provide this property
-  - accept optional and required positional arguments, such as `clone <repository> [directory]`
-  - if this command is the main command, it's name will set as bin name.
-- `aliases` - {Array|String} the command aliases
-- `description` - {String} command description in help text, **left to empty will act like a hidden command**
+- `description` - {String} a getter, only show this description when it's a sub command in help console
 - `helper` - {Object} helper instance
-- `usage` - {String} print usage when show help.
-- `yargs` - {Object} for advanced custom usage
-- `options` - {Object} object declaring the options the command accepts, @see [docs](http://yargs.js.org/docs/#methods-optionskey-opt) for more detail.
+- `yargs` - {Object} yargs instance for advanced custom usage
+
+You can define options using yargs
 
 ```js
-this.options = {
+this.yargs.options({
   baseDir: {
     alias: 'b',
     demandOption: true,
@@ -181,7 +177,7 @@ this.options = {
     description: 'choose a size',
     choices: ['xs', 's', 'm', 'l', 'xl']
   },
-};
+});
 ```
 
 ### Helper
@@ -196,9 +192,8 @@ this.options = {
 const Command = require('common-bin');
 const helper = require('./helper');
 class MainCommand extends Command {
-  constructor() {
-    super();
-    this.name = pkg.name;
+  constructor(argv) {
+    super(argv);
 
     // load sub command
     this.load(path.join(__dirname, 'command'));
@@ -217,16 +212,14 @@ Just need to provide `options` and `run()`.
 
 ```js
 const Command = require('common-bin');
-const pkg = require('./package.json');
 class MainCommand extends Command {
-  constructor() {
-    super();
-    this.name = pkg.name;
-    this.options = {
+  constructor(argv) {
+    super(argv);
+    this.yargs.options({
       baseDir: {
         description: 'target directory',
       },
-    };
+    });
   }
 
   * run(context) {
@@ -242,10 +235,8 @@ Also support sub command such as `my-git remote add <name> <url> --tags`.
 ```js
 // test/fixtures/my-git/command/remote.js
 class RemoteCommand extends Command {
-  constructor() {
-    super();
-    this.name = 'remote';
-    this.description = 'Manage set of tracked repositories';
+  constructor(argv) {
+    super(argv);
     // load sub command for directory
     this.load(path.join(__dirname, 'remote'));
   }
@@ -253,26 +244,33 @@ class RemoteCommand extends Command {
   * run({ argv }) {
     console.log('run remote command with %j', argv._);
   }
+
+  get description() {
+    return 'Manage set of tracked repositories';
+  }
 }
 
 // test/fixtures/my-git/command/remote/add.js
 class AddCommand extends Command {
-  constructor() {
-    super();
-    this.name = 'add <name> <url>';
-    this.description = 'Adds a remote named <name> for the repository at <url>';
+  constructor(argv) {
+    super(argv);
 
-    this.options = {
+    this.yargs.options({
       tags: {
         type: 'boolean',
         default: false,
         description: 'imports every tag from the remote repository',
       },
-    };
+    });
+
   }
 
   * run({ argv }) {
     console.log('git remote add %s to %s with tags=%s', argv.name, argv.url, argv.tags);
+  }
+
+  get description() {
+    return 'Adds a remote named <name> for the repository at <url>';
   }
 }
 ```
@@ -284,15 +282,14 @@ see [remote.js](test/fixtures/my-git/command/remote.js) for more detail.
 
 ```js
 class SleepCommand extends Command {
-  constructor() {
-    super();
-    this.name = 'sleep';
-    this.description = 'sleep showcase';
-  }
 
   async run() {
     await sleep('1s');
     console.log('sleep 1s');
+  }
+
+  get description() {
+    return 'sleep showcase';
   }
 }
 
@@ -302,89 +299,6 @@ function sleep(ms) {
 ```
 
 see [async-bin](test/fixtures/async-bin) for more detail.
-
-
-## Migrating from v1 to v2
-
-### bin
-
-- `run` method is not longer exist.
-
-```js
-// 1.x
-const run = require('common-bin').run;
-run(require('../lib/my_program'));
-
-// 2.x
-// require a main Command
-const Command = require('..');
-new Command().start();
-```
-
-### Program
-
-- `Program` is just a `Command` sub class, you can call it `Main Command` now.
-- `addCommand()` don't need to pass command name as first argument anymore, it should be a property of `Command` itself.
-- Recommand to use `load(...path)` to load the whole command directory.
-
-```js
-// 1.x
-this.add('test', path.join(__dirname, 'test_command.js'));
-
-// 2.x
-const Command = require('common-bin');
-const pkg = require('./package.json');
-class MainCommand extends Command {
-  constructor() {
-    super();
-    this.name = pkg.name;
-
-    this.add(path.join(__dirname, 'test_command.js'));
-    // or load the entire directory
-    this.load(path.join(__dirname, 'command'));
-  });
-```
-
-### Command
-
-- `help()` is not use anymore.
-- should provide `name`, `description`, `options`.
-- `* run()` arguments had change to object, recommand to use destructuring style - `{ cwd, argv, rawArgv }`
-  - `argv` is an object parse by `yargs`, **not `args`.**
-  - `rawArgv` is equivalent to old `args`
-
-```js
-// 1.x
-class TestCommand extends Command {
-  * run(cwd, args) {
-    console.log('run mocha test at %s with %j', cwd, args);
-  }
-}
-
-// 2.x
-class TestCommand extends Command {
-  constructor() {
-    super();
-    this.name = 'test';
-    this.description = 'unit test';
-    // my-bin test --require=co-mocha
-    this.options = {
-      require: {
-        description: 'require module name',
-      },
-    };
-  }
-
-  * run({ cwd, argv, rawArgv }) {
-    console.log('run mocha test at %s with %j', cwd, argv);
-  }
-}
-```
-
-### helper
-
-- `getIronNodeBin` is remove.
-- `child.kill` now support signal.
 
 ## License
 

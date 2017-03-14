@@ -7,13 +7,13 @@
     "co": "^4.6.0",
     "debug": "^2.6.1",
     "is-type-of": "^1.0.0",
-    "loading": "^1.13.1",
     "yargs": "^7.0.1"
   },
   "devDependencies": {
     "autod": "^2.7.1",
     "coffee": "^3.3.0",
     "egg-bin": "^2.4.0",
+    "egg-ci": "^1.5.0",
     "eslint": "^3.17.0",
     "eslint-config-egg": "^3.2.0",
     "istanbul": "^0.4.5",
@@ -35,7 +35,7 @@
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
-    "ci": "npm run clean && npm run lint && npm run cov && npm run cov-report"
+    "ci": "npm run clean && npm run lint && egg-bin cov"
   },
   "engines": {
     "node": ">= 6.0.0"
@@ -45,6 +45,10 @@
     "index.js"
   ],
   "ci": {
-    "version": "6, 7"
+    "version": "6, 7",
+    "license": {
+      "year": "2017",
+      "fullname": "node-modules and other contributors"
+    }
   }
 }

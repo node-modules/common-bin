@@ -84,10 +84,10 @@ class MainCommand extends Command {
     this.usage = `Usage: ${this.name} <command> [options]`;
 
     // load entire command directory
-    this.loadCommand(path.join(__dirname, 'command'));
+    this.load(path.join(__dirname, 'command'));
 
     // or load special command file
-    // this.addCommand(path.join(__dirname, 'test_command.js'));
+    // this.add(path.join(__dirname, 'test_command.js'));
 
     // more custom with `yargs` api, such as you can use `my-git -V`
     this.yargs.alias('V', 'version');
@@ -147,7 +147,7 @@ Define the main logic of command
     - `cwd` - `process.cwd()`
     - `argv` - argv parse result by yargs, `{ _: [ 'start' ], '$0': '/usr/local/bin/common-bin', baseDir: 'simple'}`
     - `rawArgv` - the raw argv, `[ "--baseDir=simple" ]`
-- `loadCommand(...args)` - register the entire directory to commands, `args` will join by `path.join`
+- `load(...args)` - register the entire directory to commands, `args` will join by `path.join`
 - `addCommand(filePath)` - register special file with extname to command.
 - `showHelp()` - print usage message to console.
 
@@ -201,7 +201,7 @@ class MainCommand extends Command {
     this.name = pkg.name;
 
     // load sub command
-    this.loadCommand(__dirname, 'command');
+    this.load(__dirname, 'command');
 
     // custom helper
     Object.assign(this.helper, helper);
@@ -247,7 +247,7 @@ class RemoteCommand extends Command {
     this.name = 'remote';
     this.description = 'Manage set of tracked repositories';
     // load sub command for directory
-    this.loadCommand(path.join(__dirname, 'remote'));
+    this.load(path.join(__dirname, 'remote'));
   }
 
   * run({ argv }) {
@@ -325,11 +325,11 @@ new Command().start();
 
 - `Program` is just a `Command` sub class, you can call it `Main Command` now.
 - `addCommand()` don't need to pass command name as first argument anymore, it should be a property of `Command` itself.
-- Recommand to use `loadCommand(...path)` to load the whole command directory.
+- Recommand to use `load(...path)` to load the whole command directory.
 
 ```js
 // 1.x
-this.addCommand('test', path.join(__dirname, 'test_command.js'));
+this.add('test', path.join(__dirname, 'test_command.js'));
 
 // 2.x
 const Command = require('common-bin');
@@ -339,9 +339,9 @@ class MainCommand extends Command {
     super();
     this.name = pkg.name;
 
-    this.addCommand(path.join(__dirname, 'test_command.js'));
+    this.add(path.join(__dirname, 'test_command.js'));
     // or load the entire directory
-    this.loadCommand(__dirname, 'command');
+    this.load(__dirname, 'command');
   });
 ```
 

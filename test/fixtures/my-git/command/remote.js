@@ -6,8 +6,8 @@ class RemoteCommand extends Command {
   constructor(argv) {
     super(argv);
     this.yargs.usage('Usage: my-git remote <add/remove>');
-    this.loadCommand(__dirname, 'remote');
-    this.aliasCommand('rm', 'remove');
+    this.load(__dirname, 'remote');
+    this.alias('rm', 'remove');
   }
 
   * run({ argv }) {

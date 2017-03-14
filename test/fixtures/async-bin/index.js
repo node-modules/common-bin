@@ -10,7 +10,7 @@ class MainCommand extends Command {
     this.yargs.usage('Usage: async-bin <command> [options]');
 
     // load directory
-    this.loadCommand(path.join(__dirname, 'command'));
+    this.load(path.join(__dirname, 'command'));
   }
 
   async run({ argv }) {

@@ -8,7 +8,7 @@ class MainCommand extends Command {
     this.yargs.usage('Usage: my-bin-sub <command> [options]');
 
     // load directory
-    this.loadCommand(__dirname, 'command');
+    this.load(__dirname, 'command');
   }
 }
 

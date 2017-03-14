@@ -9,7 +9,7 @@ class MainCommand extends Command {
     this.yargs.usage('Usage: my-helper <command> [options]');
 
     // load sub command
-    this.loadCommand(__dirname, 'command');
+    this.load(__dirname, 'command');
 
     // custom helper
     Object.assign(this.helper, helper);

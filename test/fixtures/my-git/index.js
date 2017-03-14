@@ -8,7 +8,7 @@ class MainCommand extends Command {
     this.yargs.usage('Usage: my-git <command> [options]');
 
     // load sub command
-    this.loadCommand(__dirname, 'command');
+    this.load(__dirname, 'command');
   }
 }
 

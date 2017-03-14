@@ -16,11 +16,8 @@
     "egg-ci": "^1.5.0",
     "eslint": "^3.17.0",
     "eslint-config-egg": "^3.2.0",
-    "istanbul": "^0.4.5",
     "mm": "^2.1.0",
-    "mocha": "^3.2.0",
-    "rimraf": "^2.6.1",
-    "webstorm-disable-index": "^1.1.2"
+    "rimraf": "^2.6.1"
   },
   "repository": {
     "type": "git",

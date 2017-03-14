@@ -6,13 +6,13 @@ class AddCommand extends Command {
   constructor(argv) {
     super(argv);
     this.yargs.usage('Usage: my-git remote add <name> <url>');
-    this.yargs.options({
+    this.options = {
       tags: {
         type: 'boolean',
         default: false,
         description: 'imports every tag from the remote repository',
       },
-    });
+    };
   }
 
   * run({ argv }) {

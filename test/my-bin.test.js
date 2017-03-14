@@ -56,6 +56,16 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
+    it('my-bin begin', done => {
+      coffee.fork(myBin, [ 'begin' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /run start command at .*test-files with port 7001/)
+        .expect('stdout', /start server with \["--port","7001"]/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('my-bin start --port', done => {
       coffee.fork(myBin, [ 'start', '--port=8000' ], { cwd })
         // .debug()

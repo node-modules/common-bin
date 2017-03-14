@@ -13,8 +13,6 @@ module.exports = {
     'egg-bin',
     'eslint',
     'eslint-config-egg',
-    'mocha',
-    'istanbul',
   ],
   keep: [
   ],

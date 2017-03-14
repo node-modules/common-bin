@@ -6,7 +6,6 @@ const path = require('path');
 class StartCommand extends Command {
   constructor(argv) {
     super(argv);
-    this.aliases = [ 'begin' ];
     this.yargs.options({
       port: {
         description: 'port of http server',

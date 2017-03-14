@@ -20,6 +20,8 @@ class MainCommand extends Command {
     } else {
       this.add('cov', path.join(__dirname, 'lib/cov_command.js'));
     }
+
+    this.alias('begin', 'start');
   }
 }
 

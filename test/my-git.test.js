@@ -33,6 +33,17 @@ describe('test/my-git.test.js', () => {
         .end(done);
     });
 
+    it('my-git -h remote', done => {
+      coffee.fork(myBin, [ '-h', 'remote' ], { cwd })
+        // .debug()
+        .expect('stdout', /Usage: my-git remote/)
+        .expect('stdout', /Commands:/)
+        .expect('stdout', /add\s*Adds a remote/)
+        .expect('stdout', /remove\s*Remove the remote/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('my-git', done => {
       coffee.fork(myBin, [], { cwd })
         // .debug()

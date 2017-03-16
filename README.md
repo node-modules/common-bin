@@ -34,7 +34,7 @@ $ npm i common-bin --save-dev
 
 You maybe need a custom xxx-bin to implement more custom features.
 
-Now you can implement a [Program](lib/program.js) sub class, and [Command](lib/command.js) sub class to do that.
+Now you can implement a [Command](lib/command.js) sub class to do that.
 
 ### Example: Write your own `git` command
 
@@ -79,7 +79,7 @@ const pkg = require('./package.json';
 class MainCommand extends Command {
   constructor(argv) {
     super(argv);
-    this.yargs.usage('Usage: my-git <command> [options]');
+    this.usage = 'Usage: my-git <command> [options]';
 
     // load entire command directory
     this.load(path.join(__dirname, 'command'));
@@ -103,7 +103,7 @@ class CloneCommand extends Command {
   constructor(argv) {
     super(argv);
 
-    this.yargs.options({
+    this.options = {
       depth: {
         type: 'number',
         description: 'Create a shallow clone with a history truncated to the specified number of commits',
@@ -151,6 +151,8 @@ Define the main logic of command
 - `add(name, filePath)` - register special file to command with command name
 - `alias(alias, name)` - register a command with an existing command
 - `showHelp()` - print usage message to console.
+- `options=` - a setter, shortcut for `yargs.options`
+- `usage=` - a setter, shortcut for `yargs.usage`
 
 **Properties:**
 
@@ -185,7 +187,7 @@ this.yargs.options({
 - `forkNode(modulePath, args, opt)`
 - `npmInstall(npmCli, name, cwd)`
 
-**Extend:**
+**Extend Helper**
 
 ```js
 // index.js

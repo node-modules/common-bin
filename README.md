@@ -306,9 +306,9 @@ see [async-bin](test/fixtures/async-bin) for more detail.
 ### Bash-Completions
 
 ```bash
-# exec below will print usage for auto bash completion
+$ # exec below will print usage for auto bash completion
 $ my-git completion
-# exec below will mount auto completion to your bash
+$ # exec below will mount auto completion to your bash
 $ my-git completion >> ~/.bashrc
 ```
 

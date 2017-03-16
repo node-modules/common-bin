@@ -1,4 +1,4 @@
-#!/usr/bin/env node #--debug-brk --inspect
+#!/usr/bin/env node --debug-brk --inspect
 
 'use strict';
 

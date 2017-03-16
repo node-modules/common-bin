@@ -33,6 +33,17 @@ describe('test/my-git.test.js', () => {
         .end(done);
     });
 
+    it('my-git -h remote', done => {
+      coffee.fork(myBin, [ '-h', 'remote' ], { cwd })
+        // .debug()
+        .expect('stdout', /Usage: my-git remote/)
+        .expect('stdout', /Commands:/)
+        .expect('stdout', /add\s*Adds a remote/)
+        .expect('stdout', /remove\s*Remove the remote/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('my-git', done => {
       coffee.fork(myBin, [], { cwd })
         // .debug()
@@ -56,7 +67,7 @@ describe('test/my-git.test.js', () => {
     // https://github.com/yargs/yargs/issues/570
     it.skip('my-git clone <repository>', done => {
       coffee.fork(myBin, [ 'clone', repository, 'common-bin', '--depth=1' ], { cwd })
-        .debug()
+        // .debug()
         // .coverage(false)
         .expect('stdout', /git clone .*node-modules\/common-bin to common-bin with depth 1/)
         .expect('code', 0)
@@ -145,5 +156,53 @@ describe('test/my-git.test.js', () => {
         .expect('code', 0)
         .end(done);
     });
+  });
+
+  describe('bash-completion', () => {
+    it('--get-yargs-completions my-git', done => {
+      coffee.fork(myBin, [ '--get-yargs-completions', 'my-git' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /completion/)
+        .expect('stdout', /clone/)
+        .expect('stdout', /remote/)
+        .notExpect('stdout', /Usage:/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('--get-yargs-completions my-git remote', done => {
+      coffee.fork(myBin, [ '--get-yargs-completions', 'my-git', 'remote' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /completion/)
+        .expect('stdout', /add/)
+        .expect('stdout', /remove/)
+        .expect('stdout', /rm/)
+        .notExpect('stdout', /Usage:/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('--get-yargs-completions my-git remote add', done => {
+      coffee.fork(myBin, [ '--get-yargs-completions', 'my-git', 'remote', 'add', '-' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /--tags/)
+        .notExpect('stdout', /Usage:/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('--get-yargs-completions my-git remote add', done => {
+      coffee.fork(myBin, [ '--get-yargs-completions', 'my-git', 'remote', 'add', '--' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /--tags/)
+        .notExpect('stdout', /Usage:/)
+        .expect('code', 0)
+        .end(done);
+    });
+
   });
 });

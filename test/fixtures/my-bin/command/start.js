@@ -15,8 +15,9 @@ class StartCommand extends Command {
     });
   }
 
-  * run({ cwd, argv }) {
+  * run({ cwd, argv, rawArgv }) {
     console.log('run start command at %s with port %j', cwd, argv.port);
+    console.log('rawArgv: %s', rawArgv);
     yield this.helper.forkNode(path.join(__dirname, 'start-cluster'), [ '--port', argv.port ]);
   }
 

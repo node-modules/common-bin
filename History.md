@@ -1,4 +1,10 @@
 
+2.0.0 / 2017-03-16
+==================
+
+  * feat: call DISPATCH directly & auto complete (#7)
+  * feat: [BREAKING_CHANGE] reimplement to support subcommand and options (#6)
+
 1.0.1 / 2017-02-04
 ==================
 

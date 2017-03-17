@@ -5,8 +5,8 @@ const path = require('path');
 // const pkg = require('./package.json');
 
 class MainCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
     this.yargs.usage('Usage: my-bin <command> [options]');
 
     // load directory

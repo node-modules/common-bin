@@ -3,13 +3,13 @@
 const Command = require('../../..');
 
 class Program extends Command {
-  constructor(argv) {
-    super(argv);
-    this.yargs.options({
+  constructor(rawArgv) {
+    super(rawArgv);
+    this.options = {
       baseDir: {
         description: 'target directory',
       },
-    });
+    };
   }
 
   run(context) {

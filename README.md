@@ -77,8 +77,8 @@ const Command = require('common-bin');
 const pkg = require('./package.json';
 
 class MainCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
     this.usage = 'Usage: my-git <command> [options]';
 
     // load entire command directory
@@ -100,8 +100,8 @@ module.exports = MainCommand;
 ```js
 const Command = require('common-bin');
 class CloneCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
 
     this.options = {
       depth: {
@@ -194,8 +194,8 @@ this.yargs.options({
 const Command = require('common-bin');
 const helper = require('./helper');
 class MainCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
 
     // load sub command
     this.load(path.join(__dirname, 'command'));
@@ -215,8 +215,8 @@ Just need to provide `options` and `run()`.
 ```js
 const Command = require('common-bin');
 class MainCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
     this.yargs.options({
       baseDir: {
         description: 'target directory',
@@ -237,8 +237,9 @@ Also support sub command such as `my-git remote add <name> <url> --tags`.
 ```js
 // test/fixtures/my-git/command/remote.js
 class RemoteCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    // DO NOT forgot to pass params to super
+    super(rawArgv);
     // load sub command for directory
     this.load(path.join(__dirname, 'remote'));
   }
@@ -254,8 +255,8 @@ class RemoteCommand extends Command {
 
 // test/fixtures/my-git/command/remote/add.js
 class AddCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
 
     this.yargs.options({
       tags: {

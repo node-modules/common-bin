@@ -5,8 +5,8 @@ const Command = require('../../..');
 const helper = require('./lib/helper');
 
 class MainCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
     this.yargs.usage('Usage: my-helper <command> [options]');
 
     // load sub command

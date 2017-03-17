@@ -2,7 +2,6 @@
 
 const Command = require('../../..');
 const path = require('path');
-// const pkg = require('./package.json');
 
 class MainCommand extends Command {
   constructor(rawArgv) {

@@ -1,9 +1,10 @@
 'use strict';
 
 const Command = require('../../../..');
-class NormalizeCommand extends Command {
-  normalizeContext(context) {
-    context = super.normalizeContext(context);
+
+class ContextCommand extends Command {
+  get context() {
+    const context = super.context;
     context.execArgv = [ '--inspect' ];
     return context;
   }
@@ -13,8 +14,8 @@ class NormalizeCommand extends Command {
   }
 
   get description() {
-    return 'normalize context';
+    return 'custom context';
   }
 }
 
-module.exports = NormalizeCommand;
+module.exports = ContextCommand;

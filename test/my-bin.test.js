@@ -94,8 +94,8 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
-    it('my-bin normalize', done => {
-      coffee.fork(myBin, [ 'normalize' ], { cwd })
+    it('my-bin context', done => {
+      coffee.fork(myBin, [ 'context' ], { cwd })
         // .debug()
         // .coverage(false)
         .expect('stdout', /execArgv: --inspect/)

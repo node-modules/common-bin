@@ -2,7 +2,7 @@
 
 const Command = require('../../..');
 
-class Program extends Command {
+class MainCommand extends Command {
   constructor(rawArgv) {
     super(rawArgv);
     this.options = {
@@ -18,4 +18,4 @@ class Program extends Command {
   }
 }
 
-module.exports = Program;
+module.exports = MainCommand;

@@ -22,6 +22,12 @@ class MainCommand extends Command {
     }
 
     this.alias('begin', 'start');
+
+    this.add('class', class ClassCommand extends Command {
+      run() {
+        console.log('add by class');
+      }
+    });
   }
 }
 

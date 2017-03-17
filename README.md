@@ -148,7 +148,7 @@ Define the main logic of command
     - `argv` - argv parse result by yargs, `{ _: [ 'start' ], '$0': '/usr/local/bin/common-bin', baseDir: 'simple'}`
     - `rawArgv` - the raw argv, `[ "--baseDir=simple" ]`
 - `load(fullPath)` - register the entire directory to commands
-- `add(name, filePath)` - register special file to command with command name
+- `add(name, target)` - register special command with command name, `target` could be full path of file or Class.
 - `alias(alias, name)` - register a command with an existing command
 - `showHelp()` - print usage message to console.
 - `options=` - a setter, shortcut for `yargs.options`
@@ -217,11 +217,11 @@ const Command = require('common-bin');
 class MainCommand extends Command {
   constructor(rawArgv) {
     super(rawArgv);
-    this.yargs.options({
+    this.options = {
       baseDir: {
         description: 'target directory',
       },
-    });
+    };
   }
 
   * run(context) {
@@ -258,13 +258,13 @@ class AddCommand extends Command {
   constructor(rawArgv) {
     super(rawArgv);
 
-    this.yargs.options({
+    this.options = {
       tags: {
         type: 'boolean',
         default: false,
         description: 'imports every tag from the remote repository',
       },
-    });
+    };
 
   }
 

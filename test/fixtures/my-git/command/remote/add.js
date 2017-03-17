@@ -3,9 +3,9 @@
 const Command = require('../../../../..');
 
 class AddCommand extends Command {
-  constructor(argv) {
-    super(argv);
-    this.yargs.usage('Usage: my-git remote add <name> <url>');
+  constructor(rawArgv) {
+    super(rawArgv);
+    this.usage = 'Usage: my-git remote add <name> <url>';
     this.options = {
       tags: {
         type: 'boolean',

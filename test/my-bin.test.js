@@ -93,6 +93,24 @@ describe('test/my-bin.test.js', () => {
         .expect('code', 1)
         .end(done);
     });
+
+    it('my-bin context', done => {
+      coffee.fork(myBin, [ 'context' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /execArgv: --inspect/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('my-bin class', done => {
+      coffee.fork(myBin, [ 'class' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /add by class/)
+        .expect('code', 0)
+        .end(done);
+    });
   });
 
   describe('override', () => {

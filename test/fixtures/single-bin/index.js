@@ -2,14 +2,14 @@
 
 const Command = require('../../..');
 
-class Program extends Command {
-  constructor(argv) {
-    super(argv);
-    this.yargs.options({
+class MainCommand extends Command {
+  constructor(rawArgv) {
+    super(rawArgv);
+    this.options = {
       baseDir: {
         description: 'target directory',
       },
-    });
+    };
   }
 
   run(context) {
@@ -18,4 +18,4 @@ class Program extends Command {
   }
 }
 
-module.exports = Program;
+module.exports = MainCommand;

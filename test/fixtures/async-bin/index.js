@@ -5,8 +5,8 @@ const Command = require('../../..');
 const co = require('co');
 
 class MainCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
     this.yargs.usage('Usage: async-bin <command> [options]');
 
     // load directory

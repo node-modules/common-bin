@@ -4,8 +4,8 @@ const Command = require('../../../..');
 const path = require('path');
 
 class StartCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
     this.yargs.options({
       port: {
         description: 'port of http server',

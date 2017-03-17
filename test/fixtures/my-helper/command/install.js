@@ -4,8 +4,8 @@ const path = require('path');
 const Command = require('../../../..');
 
 class InstallCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
     this.yargs.options({
       name: {
         description: 'package name',

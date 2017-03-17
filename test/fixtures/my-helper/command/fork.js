@@ -4,13 +4,13 @@ const Command = require('../../../..');
 const path = require('path');
 
 class ForkCommand extends Command {
-  constructor(argv) {
-    super(argv);
-    this.yargs.options({
+  constructor(rawArgv) {
+    super(rawArgv);
+    this.options = {
       target: {
         description: 'fork script file',
       },
-    });
+    };
   }
 
   * run({ argv, rawArgv }) {

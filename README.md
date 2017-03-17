@@ -77,8 +77,8 @@ const Command = require('common-bin');
 const pkg = require('./package.json';
 
 class MainCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
     this.usage = 'Usage: my-git <command> [options]';
 
     // load entire command directory
@@ -100,8 +100,8 @@ module.exports = MainCommand;
 ```js
 const Command = require('common-bin');
 class CloneCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
 
     this.options = {
       depth: {
@@ -148,7 +148,7 @@ Define the main logic of command
     - `argv` - argv parse result by yargs, `{ _: [ 'start' ], '$0': '/usr/local/bin/common-bin', baseDir: 'simple'}`
     - `rawArgv` - the raw argv, `[ "--baseDir=simple" ]`
 - `load(fullPath)` - register the entire directory to commands
-- `add(name, filePath)` - register special file to command with command name
+- `add(name, target)` - register special command with command name, `target` could be full path of file or Class.
 - `alias(alias, name)` - register a command with an existing command
 - `showHelp()` - print usage message to console.
 - `options=` - a setter, shortcut for `yargs.options`
@@ -194,8 +194,8 @@ this.yargs.options({
 const Command = require('common-bin');
 const helper = require('./helper');
 class MainCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
 
     // load sub command
     this.load(path.join(__dirname, 'command'));
@@ -215,13 +215,13 @@ Just need to provide `options` and `run()`.
 ```js
 const Command = require('common-bin');
 class MainCommand extends Command {
-  constructor(argv) {
-    super(argv);
-    this.yargs.options({
+  constructor(rawArgv) {
+    super(rawArgv);
+    this.options = {
       baseDir: {
         description: 'target directory',
       },
-    });
+    };
   }
 
   * run(context) {
@@ -237,8 +237,9 @@ Also support sub command such as `my-git remote add <name> <url> --tags`.
 ```js
 // test/fixtures/my-git/command/remote.js
 class RemoteCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    // DO NOT forgot to pass params to super
+    super(rawArgv);
     // load sub command for directory
     this.load(path.join(__dirname, 'remote'));
   }
@@ -254,16 +255,16 @@ class RemoteCommand extends Command {
 
 // test/fixtures/my-git/command/remote/add.js
 class AddCommand extends Command {
-  constructor(argv) {
-    super(argv);
+  constructor(rawArgv) {
+    super(rawArgv);
 
-    this.yargs.options({
+    this.options = {
       tags: {
         type: 'boolean',
         default: false,
         description: 'imports every tag from the remote repository',
       },
-    });
+    };
 
   }
 

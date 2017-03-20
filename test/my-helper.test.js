@@ -2,6 +2,9 @@
 
 const path = require('path');
 const coffee = require('coffee');
+const helper = require('../lib/helper');
+const yargs = require('yargs');
+const assert = require('assert');
 
 describe('test/my-helper.test.js', () => {
   const myBin = require.resolve('./fixtures/my-helper/bin/my-helper.js');
@@ -97,5 +100,20 @@ describe('test/my-helper.test.js', () => {
       .expect('stderr', /npm ERR! 404/)
       .expect('code', 1)
       .end(done);
+  });
+
+  it('helper.unparseArgv', () => {
+    const args = [
+      'echo',
+      '--baseDir=./dist',
+      '--debug=5555', '--debug-brk',
+      '--inspect', '6666', '--inspect-brk',
+      '--es_staging', '--harmony', '--harmony_default_parameters',
+    ];
+    const argv = yargs.parse(args);
+    const execArgv = helper.unparseArgv(argv, {
+      includes: [ 'debug', /^harmony.*/ ],
+    });
+    assert.deepEqual(execArgv, [ '--debug=5555', '--harmony', '--harmony_default_parameters' ]);
   });
 });

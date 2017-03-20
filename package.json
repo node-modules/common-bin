@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "co": "^4.6.0",
+    "dargs": "^5.1.0",
     "debug": "^2.6.3",
     "yargs": "^7.0.2"
   },

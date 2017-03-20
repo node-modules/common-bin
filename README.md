@@ -184,8 +184,10 @@ this.yargs.options({
 
 ### Helper
 
-- `forkNode(modulePath, args, opt)`
-- `npmInstall(npmCli, name, cwd)`
+- `forkNode(modulePath, args, opt)` - fork child process, wrap with promise and gracefull exit
+- `npmInstall(npmCli, name, cwd)` - install node modules, wrap with promise
+- `* callFn(fn, args, thisArg)` - call fn, support gernerator / async / normal function with promise
+- `unparseArgv(argv, opts)` - unparse argv and change it to array style
 
 **Extend Helper**
 

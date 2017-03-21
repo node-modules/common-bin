@@ -9,6 +9,13 @@ class AddCommand extends Command {
     this.options = {
       tags: {
         type: 'boolean',
+        alias: 't',
+        default: false,
+        description: 'imports every tag from the remote repository',
+      },
+      'debug-ab': {
+        type: 'boolean',
+        alias: 'd',
         default: false,
         description: 'imports every tag from the remote repository',
       },

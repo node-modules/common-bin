@@ -96,7 +96,7 @@ describe('test/my-helper.test.js', () => {
     coffee.fork(myBin, [ 'install', '--target=common-bin-not-exist' ], { cwd, env: process.env })
       // .debug()
       // .coverage(false);
-      .expect('stdout', /npm i common-bin-not-exist/)
+      .expect('stdout', /npm.* i common-bin-not-exist/)
       .expect('stderr', /npm ERR! 404/)
       .expect('code', 1)
       .end(done);

@@ -5,6 +5,12 @@ const Command = require('../../../..');
 class ContextCommand extends Command {
   constructor(rawArgv) {
     super(rawArgv);
+    this.parserOptions = {
+      execArgv: true,
+      removeAlias: true,
+      removeCamelCase: true,
+    };
+
     this.options = {
       baseDir: {
         description: 'target directory',
@@ -14,9 +20,10 @@ class ContextCommand extends Command {
   }
 
 
-  * run({ argv, execArgv }) {
+  * run({ argv, execArgv, debugPort }) {
     console.log('argv: %j', argv);
     console.log('execArgv: %s', execArgv);
+    console.log('debugPort: %s', debugPort);
   }
 
   get description() {

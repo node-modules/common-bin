@@ -94,11 +94,45 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
-    it('my-bin context', done => {
-      coffee.fork(myBin, [ 'context' ], { cwd })
+    it('my-bin parserOptions', done => {
+      const args = [
+        'parserOptions',
+        '--baseDir=./dist',
+        '--debug', '--debug-brk=5555',
+        '--expose_debug_as=v8debug',
+        '--inspect', '6666', '--inspect-brk',
+        '--es_staging', '--harmony', '--harmony_default_parameters',
+      ];
+      coffee.fork(myBin, args, { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stdout', /execArgv: --inspect/)
+        .notExpect('stdout', /"b":".\/dist"/)
+        .expect('stdout', /"baseDir":".\/dist"/)
+        .notExpect('stdout', /"debug-brk":5555,/)
+        .notExpect('stdout', /"debugBrk":5555,/)
+        .expect('stdout', /execArgv: --debug,--debug-brk=5555,--expose_debug_as=v8debug,--inspect=6666,--inspect-brk,--es_staging,--harmony,--harmony_default_parameters/)
+        .expect('stdout', /debugPort: 6666/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('my-bin context', done => {
+      const args = [
+        'context',
+        '--baseDir=./dist',
+        '--debug', '--debug-brk=5555',
+        '--expose_debug_as=v8debug',
+        '--inspect', '6666', '--inspect-brk',
+        '--es_staging', '--harmony', '--harmony_default_parameters',
+      ];
+      coffee.fork(myBin, args, { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /"b":".\/dist"/)
+        .expect('stdout', /"baseDir":".\/dist"/)
+        .expect('stdout', /"debug-brk":5555,/)
+        .expect('stdout', /"debugBrk":5555,/)
+        .expect('stdout', /execArgv: undefined/)
         .expect('code', 0)
         .end(done);
     });

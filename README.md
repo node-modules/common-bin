@@ -159,6 +159,10 @@ Define the main logic of command
 - `description` - {String} a getter, only show this description when it's a sub command in help console
 - `helper` - {Object} helper instance
 - `yargs` - {Object} yargs instance for advanced custom usage
+- `parserOptions` - {Object} control `context` parse rule.
+  - `execArgv` - {Boolean} whether extract `execArgv` to `context.execArgv`
+  - `removeAlias` - {Boolean} whether remove alias key from `argv`
+  - `removeCamelCase` - {Boolean} whether remove camel case key from `argv`
 
 You can define options using yargs
 

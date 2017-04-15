@@ -1,6 +1,6 @@
 {
   "name": "common-bin",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Abstraction bin tool",
   "main": "index.js",
   "dependencies": {
@@ -9,7 +9,7 @@
     "dargs": "^5.1.0",
     "debug": "^2.6.3",
     "is-type-of": "^1.0.0",
-    "yargs": "^7.0.2"
+    "yargs": "^7.1.0"
   },
   "devDependencies": {
     "autod": "^2.8.0",

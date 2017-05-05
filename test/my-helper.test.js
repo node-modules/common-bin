@@ -60,7 +60,7 @@ describe('test/my-helper.test.js', () => {
       .end(done);
   });
 
-  it('should kill child process', done => {
+  it.skip('should kill child process', done => {
     const app = coffee.fork(myBin, [ 'fork', '--target=loop_script' ], { cwd, env: process.env });
     app
       // .debug()

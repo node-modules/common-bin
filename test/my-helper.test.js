@@ -55,7 +55,7 @@ describe('test/my-helper.test.js', () => {
       // .debug()
       // .coverage(false)
       .expect('stderr', /this is an error/)
-      .expect('stderr', /error_script --target=error_script,--from=test exit with code 1/)
+      .expect('stderr', /Command Error/)
       .expect('code', 1)
       .end(done);
   });

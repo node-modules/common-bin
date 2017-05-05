@@ -89,7 +89,7 @@ describe('test/my-bin.test.js', () => {
       coffee.fork(myBin, [ 'error', '--test=abc' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stderr', /run command --test=abc got error: something wrong/)
+        .expect('stderr', /Command Error/)
         .expect('code', 1)
         .end(done);
     });

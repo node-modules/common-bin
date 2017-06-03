@@ -56,6 +56,16 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
+    it('my-bin start throw error with error argv', () => {
+      return coffee.fork(myBin, [ 'start', '--env', 'foo' ], { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stderr', /YError: Invalid values:/)
+        .expect('stderr', /Argument: env, Given: "foo", Choices: "test"/)
+        .expect('code', 1)
+        .end();
+    });
+
     it('my-bin begin', done => {
       coffee.fork(myBin, [ 'begin' ], { cwd })
         // .debug()

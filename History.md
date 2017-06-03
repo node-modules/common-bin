@@ -1,4 +1,10 @@
 
+2.4.0 / 2017-06-04
+==================
+
+  * fix: should show error name and message
+  * feat: exports env on context
+
 2.3.1 / 2017-05-06
 ==================
 

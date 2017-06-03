@@ -14,6 +14,7 @@ class MainCommand extends Command {
 
   run(context) {
     console.log('run default command at %s', context.argv.baseDir);
+    console.log('env: %s', JSON.stringify(context.env, null, 2));
     this.showHelp();
   }
 }

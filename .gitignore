@@ -4,4 +4,5 @@ coverage
 dist
 .vscode
 .idea
+test/fixtures/test-files/package-lock.json
 

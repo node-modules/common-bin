@@ -74,7 +74,7 @@ Just extend `Command`, and use as your bin start point.
 
 ```js
 const Command = require('common-bin');
-const pkg = require('./package.json';
+const pkg = require('./package.json');
 
 class MainCommand extends Command {
   constructor(rawArgv) {
@@ -143,8 +143,9 @@ Define the main logic of command
 - `run(context)`
   - should implement this to provide command handler, will exec when not found sub command.
   - Support generator / async function / normal function which return promise.
-  - `context` is `{ cwd, argv, rawArgv}`
+  - `context` is `{ cwd, env, argv, rawArgv }`
     - `cwd` - `process.cwd()`
+    - `env` - clone env object from `process.env`
     - `argv` - argv parse result by yargs, `{ _: [ 'start' ], '$0': '/usr/local/bin/common-bin', baseDir: 'simple'}`
     - `rawArgv` - the raw argv, `[ "--baseDir=simple" ]`
 - `load(fullPath)` - register the entire directory to commands
@@ -353,6 +354,7 @@ this.addCommand('test', path.join(__dirname, 'test_command.js'));
 // 2.x
 const Command = require('common-bin');
 const pkg = require('./package.json');
+
 class MainCommand extends Command {
   constructor() {
     super();
@@ -360,14 +362,15 @@ class MainCommand extends Command {
     this.add('test', path.join(__dirname, 'test_command.js'));
     // or load the entire directory
     this.load(path.join(__dirname, 'command'));
-  });
+  }
+}
 ```
 
 ### Command
 
 - `help()` is not use anymore.
 - should provide `name`, `description`, `options`.
-- `* run()` arguments had change to object, recommand to use destructuring style - `{ cwd, argv, rawArgv }`
+- `* run()` arguments had change to object, recommand to use destructuring style - `{ cwd, env, argv, rawArgv }`
   - `argv` is an object parse by `yargs`, **not `args`.**
   - `rawArgv` is equivalent to old `args`
 
@@ -391,7 +394,7 @@ class TestCommand extends Command {
     };
   }
 
-  * run({ cwd, argv, rawArgv }) {
+  * run({ cwd, env, argv, rawArgv }) {
     console.log('run mocha test at %s with %j', cwd, argv);
   }
 

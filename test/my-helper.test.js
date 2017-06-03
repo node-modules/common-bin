@@ -82,14 +82,15 @@ describe('test/my-helper.test.js', () => {
     }, 10000);
   });
 
-  it('should `helper.npmInstall`', done => {
-    coffee.fork(myBin, [ 'install', '--target=egg-init-config' ], { cwd, env: process.env })
-      // .debug()
+  it('should `helper.npmInstall`', () => {
+    return coffee.fork(myBin, [ 'install', '--target=egg-init-config' ], { cwd, env: process.env })
+      .debug()
       // .coverage(false);
-      .expect('stdout', /egg-init-config@\d+\.\d+\.\d+/)
+      // npm@5 missing the message
+      // .expect('stdout', /egg-init-config@\d+\.\d+\.\d+/)
       .expect('stdout', /install egg-init-config done/)
       .expect('code', 0)
-      .end(done);
+      .end();
   });
 
   it('should `helper.npmInstall` with error', done => {

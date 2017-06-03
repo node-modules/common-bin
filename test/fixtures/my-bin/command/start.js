@@ -12,6 +12,11 @@ class StartCommand extends Command {
         type: 'number',
         default: 7001,
       },
+      env: {
+        description: 'run env name, support `test` only',
+        type: 'string',
+        choices: [ 'test' ],
+      },
     });
   }
 

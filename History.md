@@ -1,4 +1,10 @@
 
+2.5.0 / 2017-08-04
+==================
+
+**features**
+  * [[`6eed130`](http://github.com/node-modules/common-bin/commit/6eed1303caf5aeef4306f503adcae458e9093b92)] - feat: support customize version (#13) (Yiyu He <<dead_horse@qq.com>>)
+
 2.4.0 / 2017-06-04
 ==================
 

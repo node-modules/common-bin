@@ -10,7 +10,7 @@ describe('test/my-bin-sub.test.js', () => {
   it('my-bin-dev --version', done => {
     coffee.fork(myBin, [ '--version' ], { cwd })
       // .debug()
-      .expect('stdout', '3.0.0\n')
+      .expect('stdout', '1.2.2\n')
       .expect('code', 0)
       .end(done);
   });

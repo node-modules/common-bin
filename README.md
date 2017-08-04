@@ -160,15 +160,17 @@ Define the main logic of command
 - `description` - {String} a getter, only show this description when it's a sub command in help console
 - `helper` - {Object} helper instance
 - `yargs` - {Object} yargs instance for advanced custom usage
+- `options` - {Object} a setter, set yargs' options
+- `version` - {String} customize version
 - `parserOptions` - {Object} control `context` parse rule.
   - `execArgv` - {Boolean} whether extract `execArgv` to `context.execArgv`
   - `removeAlias` - {Boolean} whether remove alias key from `argv`
   - `removeCamelCase` - {Boolean} whether remove camel case key from `argv`
 
-You can define options using yargs
+You can define options by set `this.options`
 
 ```js
-this.yargs.options({
+this.options = {
   baseDir: {
     alias: 'b',
     demandOption: true,
@@ -184,7 +186,13 @@ this.yargs.options({
     description: 'choose a size',
     choices: ['xs', 's', 'm', 'l', 'xl']
   },
-});
+};
+```
+
+You can define version by set `this.version`
+
+```js
+this.version = 'v1.0.0';
 ```
 
 ### Helper

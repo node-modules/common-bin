@@ -39,7 +39,7 @@ describe('test/my-bin.test.js', () => {
     it('my-bin --version', done => {
       coffee.fork(myBin, [ '--version' ], { cwd })
         // .debug()
-        .expect('stdout', '2.0.0\n')
+        .expect('stdout', '1.2.2\n')
         .expect('code', 0)
         .end(done);
     });

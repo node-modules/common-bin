@@ -13,7 +13,6 @@ describe('test/my-helper.test.js', () => {
   it('my-helper --help', done => {
     coffee.fork(myBin, [ '--help' ], { cwd })
       // .debug()
-      .expect('stdout', /Commands:/)
       .expect('stdout', /fork/)
       .expect('stdout', /install/)
       .expect('stdout', /echo/)

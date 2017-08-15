@@ -13,12 +13,11 @@ describe('test/my-git.test.js', () => {
       coffee.fork(myBin, [ '--help' ], { cwd })
         // .debug()
         .expect('stdout', /Usage: my-git <command> \[options]/)
-        .expect('stdout', /Commands:/)
         .expect('stdout', /clone.*Clone a repository into a new directory/)
         .expect('stdout', /remote.*Manage set of tracked repositories/)
         .expect('stdout', /Options:/)
-        .expect('stdout', /-h, --help.*Show help.*boolean/)
-        .expect('stdout', /--version.*Show version number.*boolean/)
+        .expect('stdout', /-h, --help.*/)
+        .expect('stdout', /--version.*/)
         .expect('code', 0)
         .end(done);
     });
@@ -27,7 +26,6 @@ describe('test/my-git.test.js', () => {
       coffee.fork(myBin, [ '-h' ], { cwd })
         // .debug()
         .expect('stdout', /Usage: my-git <command> \[options]/)
-        .expect('stdout', /Commands:/)
         .expect('stdout', /Options:/)
         .expect('code', 0)
         .end(done);
@@ -37,7 +35,6 @@ describe('test/my-git.test.js', () => {
       coffee.fork(myBin, [ '-h', 'remote' ], { cwd })
         // .debug()
         .expect('stdout', /Usage: my-git remote/)
-        .expect('stdout', /Commands:/)
         .expect('stdout', /add\s*Adds a remote/)
         .expect('stdout', /remove\s*Remove the remote/)
         .expect('code', 0)
@@ -48,7 +45,6 @@ describe('test/my-git.test.js', () => {
       coffee.fork(myBin, [], { cwd })
         // .debug()
         .expect('stdout', /Usage: my-git <command> \[options]/)
-        .expect('stdout', /Commands:/)
         .expect('stdout', /Options:/)
         .expect('code', 0)
         .end(done);
@@ -89,7 +85,7 @@ describe('test/my-git.test.js', () => {
         // .debug()
         // .coverage(false)
         .expect('stdout', /Options:/)
-        .expect('stdout', /--depth\s*Create a shallow.*\[number]/)
+        .expect('stdout', /--depth\s*Create a shallow.*\[.*?]/)
         .expect('code', 0)
         .end(done);
     });
@@ -101,7 +97,6 @@ describe('test/my-git.test.js', () => {
         // .debug()
         // .coverage(false)
         .expect('stdout', /Usage:.*remote <add\/remove>/)
-        .expect('stdout', /Commands:/)
         .expect('stdout', /add\s*Adds a remote named/)
         .expect('stdout', /remove\s*Remove.*/)
         // .expect('stdout', /remove <name>\s*Remove.*\[aliases: rm]/)

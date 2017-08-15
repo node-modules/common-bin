@@ -15,13 +15,12 @@ describe('test/my-bin.test.js', () => {
       coffee.fork(myBin, [ '--help' ], { cwd })
         // .debug()
         .expect('stdout', /Usage: my-bin <command> \[options]/)
-        .expect('stdout', /Commands:/)
         .expect('stdout', /start.*start app/)
         .expect('stdout', /test.*test app/)
         .notExpect('stdout', /start-cluster/)
         .notExpect('stdout', /not-register/)
         .expect('stdout', /Options:/)
-        .expect('stdout', /-h, --help.*Show help.*boolean/)
+        .expect('stdout', /-h, --help.*/)
         .expect('code', 0)
         .end(done);
     });
@@ -30,7 +29,6 @@ describe('test/my-bin.test.js', () => {
       coffee.fork(myBin, [ '-h' ], { cwd })
         // .debug()
         .expect('stdout', /Usage: my-bin <command> \[options]/)
-        .expect('stdout', /Commands:/)
         .expect('stdout', /Options:/)
         .expect('code', 0)
         .end(done);
@@ -60,8 +58,8 @@ describe('test/my-bin.test.js', () => {
       return coffee.fork(myBin, [ 'start', '--env', 'foo' ], { cwd })
         // .debug()
         // .coverage(false)
-        .expect('stderr', /YError: Invalid values:/)
-        .expect('stderr', /Argument: env, Given: "foo", Choices: "test"/)
+        .expect('stderr', /YError:/)
+        .expect('stderr', /.*env.*"foo".*"test"/)
         .expect('code', 1)
         .end();
     });

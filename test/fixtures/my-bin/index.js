@@ -27,7 +27,10 @@ class MainCommand extends Command {
         console.log('add by class');
       }
     });
-    this.version = '1.2.2';
+  }
+
+  get version() {
+    return '1.2.2';
   }
 }
 

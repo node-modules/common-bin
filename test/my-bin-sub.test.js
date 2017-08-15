@@ -19,7 +19,6 @@ describe('test/my-bin-sub.test.js', () => {
     coffee.fork(myBin, [ '--help' ], { cwd })
       // .debug()
       .expect('stdout', /Usage: my-bin-sub <command> \[options]/)
-      .expect('stdout', /Commands:/)
       .expect('stdout', /start.*start app override/)
       .expect('stdout', /test.*test app/)
       .expect('stdout', /sub.*sub app/)

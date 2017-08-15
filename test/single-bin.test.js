@@ -14,7 +14,7 @@ describe('test/single-bin.test.js', () => {
     return coffee.fork(myBin, [ '--help' ], { cwd })
       // .debug()
       .expect('stdout', /Options:/)
-      .expect('stdout', /-h, --help.*Show help.*boolean/)
+      .expect('stdout', /-h, --help.*/)
       .expect('stdout', /--baseDir.*target directory/)
       .expect('code', 0)
       .end();

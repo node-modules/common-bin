@@ -161,7 +161,7 @@ Define the main logic of command
 - `helper` - {Object} helper instance
 - `yargs` - {Object} yargs instance for advanced custom usage
 - `options` - {Object} a setter, set yargs' options
-- `version` - {String} customize version
+- `version` - {String} customize version, can be defined as a getter to support lazy load.
 - `parserOptions` - {Object} control `context` parse rule.
   - `execArgv` - {Boolean} whether extract `execArgv` to `context.execArgv`
   - `removeAlias` - {Boolean} whether remove alias key from `argv`
@@ -189,10 +189,12 @@ this.options = {
 };
 ```
 
-You can define version by set `this.version`
+You can define version by define `this.version` getter:
 
 ```js
-this.version = 'v1.0.0';
+get version() {
+  return 'v1.0.0';
+}
 ```
 
 ### Helper

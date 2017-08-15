@@ -13,7 +13,6 @@ if (nodeVersion >= 7.6) {
     it('async-bin --help', done => {
       coffee.fork(myBin, [ '--help' ], { cwd })
         // .debug()
-        .expect('stdout', /Commands:/)
         .expect('stdout', /sleep\s*sleep showcase/)
         .expect('code', 0)
         .end(done);

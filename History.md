@@ -1,4 +1,10 @@
 
+2.6.0 / 2017-08-15
+==================
+
+**features**
+  * [[`58506ff`](http://github.com/node-modules/common-bin/commit/58506ffb45299b0027de9c3a37fa4d8cd5f809ae)] - feat: version support lazy load (#14) (Yiyu He <<dead_horse@qq.com>>)
+
 2.5.0 / 2017-08-04
 ==================
 

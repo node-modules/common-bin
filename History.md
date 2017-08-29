@@ -1,4 +1,10 @@
 
+2.6.1 / 2017-08-30
+==================
+
+**fixes**
+  * [[`aa4799c`](http://github.com/node-modules/common-bin/commit/aa4799cad621e399a3a168e6d6a07b3fdb407d01)] - fix: remove unuse argv (#15) (TZ | 天猪 <<atian25@qq.com>>)
+
 2.6.0 / 2017-08-15
 ==================
 

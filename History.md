@@ -1,4 +1,10 @@
 
+2.7.0 / 2017-09-05
+==================
+
+**features**
+  * [[`a90e63c`](http://github.com/node-modules/common-bin/commit/a90e63c653d34634290a0af81bf358521457cff8)] - feat: extract debug options (#16) (TZ | 天猪 <<atian25@qq.com>>)
+
 2.6.1 / 2017-08-30
 ==================
 

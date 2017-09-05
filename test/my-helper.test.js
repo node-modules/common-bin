@@ -116,4 +116,21 @@ describe('test/my-helper.test.js', () => {
     });
     assert.deepEqual(execArgv, [ '--debug=5555', '--harmony', '--harmony_default_parameters' ]);
   });
+
+  it('helper.extractExecArgv', () => {
+    const args = [
+      'echo',
+      '--baseDir=./dist',
+      '--debug=5555', '--debug-brk',
+      '--inspect', '6666', '--inspect-brk=7777',
+      '--inspect-port', '--debug-port=8888',
+      '--debug-invalid',
+      '--es_staging', '--harmony', '--harmony_default_parameters',
+    ];
+    const argv = yargs.parse(args);
+    const { debugPort, debugOptions, execArgvObj } = helper.extractExecArgv(argv);
+    assert(debugPort === 8888);
+    assert.deepEqual(debugOptions, { debug: 5555, 'debug-brk': true, inspect: 6666, 'inspect-brk': 7777, 'inspect-port': true, 'debug-port': 8888 });
+    assert.deepEqual(execArgvObj, { debug: 5555, 'debug-brk': true, inspect: 6666, 'inspect-brk': 7777, 'inspect-port': true, 'debug-port': 8888, es_staging: true, harmony: true, harmony_default_parameters: true });
+  });
 });

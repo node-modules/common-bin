@@ -102,6 +102,101 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
+    it('my-bin parserDebug', done => {
+      const args = [
+        'parserDebug',
+        '--baseDir=./dist',
+        '--debug', '--debug-brk=5555',
+        '--expose_debug_as=v8debug',
+        '--inspect', '6666', '--inspect-brk',
+        '--debug-invalid',
+      ];
+      coffee.fork(myBin, args, { cwd })
+        // .debug()
+        // .coverage(false)
+        .notExpect('stdout', /"b":".\/dist"/)
+        .expect('stdout', /"baseDir":".\/dist"/)
+        .expect('stdout', /"debug-invalid":true,"debugInvalid":true/)
+        .notExpect('stdout', /argv: {.*"debug-brk":5555,/)
+        .notExpect('stdout', /argv: {.*"debugBrk":5555,/)
+        .expect('stdout', /execArgv: --debug,--debug-brk=5555,--expose_debug_as=v8debug,--inspect=6666,--inspect-brk/)
+        .expect('stdout', /debugPort: 6666/)
+        .expect('stdout', /debugOptions: {"debug":true,"debug-brk":5555,"inspect":6666,"inspect-brk":true}/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('my-bin parserDebug without execArgv', done => {
+      const args = [
+        'parserDebug',
+        '--baseDir=./dist',
+        '--debug-invalid',
+      ];
+      coffee.fork(myBin, args, { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /"debug-invalid":true,"debugInvalid":true/)
+        .expect('stdout', /execArgv: undefined/)
+        .expect('stdout', /debugPort: undefined/)
+        .expect('stdout', /debugOptions: undefined/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('my-bin parserDebug $NODE_DEBUG_OPTION without port', done => {
+      const args = [
+        'parserDebug',
+        '--baseDir=./dist',
+        '--debug-port=5555',
+      ];
+      coffee.fork(myBin, args, { cwd, env: Object.assign({}, process.env, { NODE_DEBUG_OPTION: '--debug-brk --expose_debug_as=v8debug' }) })
+        // .debug()
+        // .coverage(false)
+        .notExpect('stdout', /argv: {.*"debug-brk"/)
+        .notExpect('stdout', /argv: {.*"debugBrk"/)
+        .expect('stdout', /execArgv: --debug-port=5555,--debug-brk,--expose_debug_as=v8debug/)
+        .expect('stdout', /debugPort: 5555/)
+        .expect('stdout', /debugOptions: {"debug-port":5555,"debug-brk":true}/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('my-bin parserDebug $NODE_DEBUG_OPTION 6.x', done => {
+      const args = [
+        'parserDebug',
+        '--baseDir=./dist',
+        '--debug-port=5555',
+      ];
+      coffee.fork(myBin, args, { cwd, env: Object.assign({}, process.env, { NODE_DEBUG_OPTION: '--debug-brk=6666 --expose_debug_as=v8debug' }) })
+        // .debug()
+        // .coverage(false)
+        .notExpect('stdout', /argv: {.*"debug-brk"/)
+        .notExpect('stdout', /argv: {.*"debugBrk"/)
+        .expect('stdout', /execArgv: --debug-port=5555,--debug-brk=6666,--expose_debug_as=v8debug/)
+        .expect('stdout', /debugPort: 6666/)
+        .expect('stdout', /debugOptions: {"debug-port":5555,"debug-brk":6666}/)
+        .expect('code', 0)
+        .end(done);
+    });
+
+    it('my-bin parserDebug $NODE_DEBUG_OPTION 8.x', done => {
+      const args = [
+        'parserDebug',
+        '--baseDir=./dist',
+        '--debug-port=5555',
+      ];
+      coffee.fork(myBin, args, { cwd, env: Object.assign({}, process.env, { NODE_DEBUG_OPTION: '--inspect-brk=6666' }) })
+        // .debug()
+        // .coverage(false)
+        .notExpect('stdout', /argv: {.*"inspect-brk"/)
+        .notExpect('stdout', /argv: {.*"inspectBrk"/)
+        .expect('stdout', /execArgv: --debug-port=5555,--inspect-brk=6666/)
+        .expect('stdout', /debugPort: 6666/)
+        .expect('stdout', /debugOptions: {"debug-port":5555,"inspect-brk":6666}/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('my-bin parserOptions', done => {
       const args = [
         'parserOptions',

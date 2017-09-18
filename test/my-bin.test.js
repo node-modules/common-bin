@@ -197,6 +197,26 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
+    it('my-bin parserDebug warn --expose_debug_as at 7.x+', done => {
+      const args = [
+        'parserDebug',
+        '--baseDir=./dist',
+        '--debug-port=5555',
+      ];
+      coffee.fork(myBin, args, { cwd, env: Object.assign({}, process.env, { NODE_DEBUG_OPTION: '--debug-brk=6666 --expose_debug_as=v8debug' }) })
+        .debug()
+        // .coverage(false)
+        .beforeScript(path.join(__dirname, 'fixtures/mock-node.js'))
+        .expect('stderr', /Node.js runtime is \d+.\d+.\d+, and inspector protocol is not support --expose_debug_as/)
+        .notExpect('stdout', /argv: {.*"debug-brk"/)
+        .notExpect('stdout', /argv: {.*"debugBrk"/)
+        .expect('stdout', /execArgv: --debug-port=5555,--debug-brk=6666,--expose_debug_as=v8debug/)
+        .expect('stdout', /debugPort: 6666/)
+        .expect('stdout', /debugOptions: {"debug-port":5555,"debug-brk":6666}/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('my-bin parserOptions', done => {
       const args = [
         'parserOptions',

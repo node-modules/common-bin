@@ -2,7 +2,7 @@
 
 const Command = require('../../../..');
 
-class ContextCommand extends Command {
+class ParserOptionsCommand extends Command {
   constructor(rawArgv) {
     super(rawArgv);
     this.parserOptions = {
@@ -27,8 +27,8 @@ class ContextCommand extends Command {
   }
 
   get description() {
-    return 'custom context';
+    return 'parser options';
   }
 }
 
-module.exports = ContextCommand;
+module.exports = ParserOptionsCommand;

@@ -117,6 +117,22 @@ describe('test/my-helper.test.js', () => {
     assert.deepEqual(execArgv, [ '--debug=5555', '--harmony', '--harmony_default_parameters' ]);
   });
 
+  it('helper.unparseExecArgv', () => {
+    const args = [
+      'echo',
+      '-r=111',
+      '-r=222',
+      '-r', '333',
+      '--require=444',
+      '--require', '555',
+    ];
+    const argv = yargs.parse(args);
+    argv._ = [];
+    argv.$0 = undefined;
+    const execArgv = helper.unparseExecArgv(argv);
+    assert.deepEqual(execArgv, [ '-r', '111', '-r', '222', '-r', '333', '-r', '444', '-r', '555' ]);
+  });
+
   it('helper.extractExecArgv', () => {
     const args = [
       'echo',

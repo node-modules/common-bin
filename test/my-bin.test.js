@@ -126,6 +126,19 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
+    it('my-bin parserRequire', done => {
+      const args = [
+        'parserRequire',
+      ];
+      coffee.fork(myBin, args, { cwd })
+        // .debug()
+        // .coverage(false)
+        .expect('stdout', /execArgv: \["--require","abc"]/)
+        .expect('stdout', /execArgv: \["--require","abc","123"]/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('my-bin parserDebug without execArgv', done => {
       const args = [
         'parserDebug',
@@ -136,7 +149,7 @@ describe('test/my-bin.test.js', () => {
         // .debug()
         // .coverage(false)
         .expect('stdout', /"debug-invalid":true,"debugInvalid":true/)
-        .expect('stdout', /execArgv: undefined/)
+        .expect('stdout', /execArgv.length: 0/)
         .expect('stdout', /debugPort: undefined/)
         .expect('stdout', /debugOptions: undefined/)
         .expect('code', 0)

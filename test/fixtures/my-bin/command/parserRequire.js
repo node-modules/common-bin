@@ -19,12 +19,12 @@ class ContextCommand extends Command {
   }
 
 
-  * run({ argv, execArgv, debugPort, debugOptions }) {
-    console.log('argv: %j', argv);
-    console.log('execArgv: %s', execArgv);
-    console.log('execArgv.length: %s', execArgv.length);
-    console.log('debugPort: %s', debugPort);
-    console.log('debugOptions: %j', debugOptions);
+  * run(context) {
+    context.execArgvObj = { require: 'abc' };
+    console.log('execArgv: %j', context.execArgv);
+
+    context.execArgvObj = { require: [ 'abc', '123' ] };
+    console.log('execArgv: %j', context.execArgv);
   }
 
   get description() {

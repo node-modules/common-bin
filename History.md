@@ -1,4 +1,10 @@
 
+2.7.2 / 2018-03-26
+==================
+
+**fixes**
+  * [[`037b1d0`](http://github.com/node-modules/common-bin/commit/037b1d02e33beebf2071fe68c235593cea8e2c42)] - fix: execArgv convert rule (#20) (TZ | 天猪 <<atian25@qq.com>>)
+
 2.7.1 / 2017-09-18
 ==================
 

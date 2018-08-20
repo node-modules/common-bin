@@ -156,6 +156,20 @@ describe('test/my-bin.test.js', () => {
         .end(done);
     });
 
+    it('my-bin parserDebug convert --node-options--xxx to execArgv', done => {
+      const args = [
+        'parserDebug',
+        '--baseDir=./dist',
+        '--node-options--trace-warnings',
+      ];
+      coffee.fork(myBin, args, { cwd })
+        // .debug()
+        .expect('stdout', /execArgv.length: 1/)
+        .expect('stdout', /execArgv: --trace-warnings/)
+        .expect('code', 0)
+        .end(done);
+    });
+
     it('my-bin parserDebug $NODE_DEBUG_OPTION without port', done => {
       const args = [
         'parserDebug',

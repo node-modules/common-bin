@@ -4,25 +4,25 @@
   "description": "Abstraction bin tool",
   "main": "index.js",
   "dependencies": {
-    "chalk": "^2.1.0",
-    "change-case": "^3.0.1",
+    "chalk": "^2.4.1",
+    "change-case": "^3.0.2",
     "co": "^4.6.0",
-    "dargs": "^5.1.0",
-    "debug": "^3.0.1",
-    "is-type-of": "^1.2.0",
-    "semver": "^5.4.1",
-    "yargs": "^8.0.2",
-    "yargs-parser": "^7.0.0"
+    "dargs": "^6.0.0",
+    "debug": "^4.1.0",
+    "is-type-of": "^1.2.1",
+    "semver": "^5.5.1",
+    "yargs": "^12.0.2",
+    "yargs-parser": "^11.0.0"
   },
   "devDependencies": {
-    "autod": "^2.9.0",
-    "coffee": "^4.1.0",
-    "egg-bin": "^4.2.0",
+    "autod": "^3.0.1",
+    "coffee": "^5.1.0",
+    "egg-bin": "^4.9.0",
     "egg-ci": "^1.5.0",
-    "eslint": "^4.6.1",
-    "eslint-config-egg": "^5.1.1",
-    "mm": "^2.1.0",
-    "rimraf": "^2.6.1",
+    "eslint": "^5.6.1",
+    "eslint-config-egg": "^7.1.0",
+    "mm": "^2.4.1",
+    "rimraf": "^2.6.2",
     "webstorm-disable-index": "^1.1.2"
   },
   "repository": {
@@ -48,7 +48,7 @@
     "index.js"
   ],
   "ci": {
-    "version": "6, 7, 8",
+    "version": "6, 8, 10",
     "license": {
       "year": "2017",
       "fullname": "node-modules and other contributors"

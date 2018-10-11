@@ -1,4 +1,11 @@
 
+2.8.0 / 2018-10-11
+==================
+
+  * feat: allow to set helper (#27)
+  * feat: use `--node-options--xxx` to support more execArgv (#23)
+  * deps: upgrade yargs@8 -> 12 (#26)
+
 2.7.3 / 2018-03-27
 ==================
 

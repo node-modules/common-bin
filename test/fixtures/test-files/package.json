@@ -1,6 +1,6 @@
 {
   "name": "test-files",
   "dependencies": {
-    "egg-init-config": "^1.2.0"
+    "egg-init-config": "^1.5.0"
   }
 }

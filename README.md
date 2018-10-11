@@ -27,7 +27,7 @@ Abstraction bin tool wrap [yargs](http://yargs.js.org/), to provide more conveni
 ## Install
 
 ```bash
-$ npm i common-bin --save-dev
+$ npm i common-bin
 ```
 
 ## Build a bin tool for your team
@@ -70,7 +70,8 @@ new Command().start();
 #### [Main Command](test/fixtures/my-git/index.js)
 
 Just extend `Command`, and use as your bin start point.
-- You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
+
+You can use `this.yargs` to custom yargs config, see http://yargs.js.org/docs for more detail.
 
 ```js
 const Command = require('common-bin');

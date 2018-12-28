@@ -6,80 +6,6 @@ interface PlainObject {
   [key: string]: any;
 }
 
-interface Helper {
-  /**
-   * fork child process, wrap with promise and gracefull exit
-   * @method helper#forkNode
-   * @param {String} modulePath - bin path
-   * @param {Array} [args] - arguments
-   * @param {Object} [options] - options
-   * @return {Promise} err or undefined
-   * @see https://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options
-   */
-  forkNode(modulePath: string, args?: string[], options?: ForkOptions): Promise<void>;
-
-  /**
-   * spawn a new process, wrap with promise and gracefull exit
-   * @method helper#forkNode
-   * @param {String} cmd - command
-   * @param {Array} [args] - arguments
-   * @param {Object} [options] - options
-   * @return {Promise} err or undefined
-   * @see https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
-   */
-  spawn(cmd: string, args?: string[], options?: SpawnOptions): Promise<void>;
-
-  /**
-   * exec npm install
-   * @method helper#npmInstall
-   * @param {String} npmCli - npm cli, such as `npm` / `cnpm` / `npminstall`
-   * @param {String} name - node module name
-   * @param {String} cwd - target directory
-   * @return {Promise} err or undefined
-   */
-  npmInstall(npmCli: string, name: string, cwd?: string): Promise<void>;
-
-  /**
-   * call fn
-   * @method helper#callFn
-   * @param {Function} fn - support generator / async / normal function return promise
-   * @param {Array} [args] - fn args
-   * @param {Object} [thisArg] - this
-   * @return {Object} result
-   */
-  callFn<T = any, U extends any[] = any[]>(fn: (...args: U) => IterableIterator<T> | Promise<T> | T, args?: U, thisArg?: any): IterableIterator<T>;
-
-  /**
-   * unparse argv and change it to array style
-   * @method helper#unparseArgv
-   * @param {Object} argv - yargs style
-   * @param {Object} [options] - options, see more at https://github.com/sindresorhus/dargs
-   * @param {Array} [options.includes] - keys or regex of keys to include
-   * @param {Array} [options.excludes] - keys or regex of keys to exclude
-   * @return {Array} [ '--debug=7000', '--debug-brk' ]
-   */
-  unparseArgv(argv: object, options?: dargs.Options): string[];
-
-  /**
-   * extract execArgv from argv
-   * @method helper#extractExecArgv
-   * @param {Object} argv - yargs style
-   * @return {Object} { debugPort, debugOptions: {}, execArgvObj: {} }
-   */
-  extractExecArgv(argv: object): { debugPort?: number; debugOptions?: PlainObject; execArgvObj: PlainObject };
-}
-
-interface BinContext extends PlainObject {
-  cwd: string;
-  rawArgv: string[];
-  env: PlainObject;
-  argv: Arguments<PlainObject>;
-  execArgvObj: PlainObject;
-  readonly execArgv: string[];
-  debugPort?: number;
-  debugOptions?: PlainObject;
-}
-
 // migrating to common-bin later
 declare class CommonBin {
   options: Options;
@@ -102,7 +28,7 @@ declare class CommonBin {
    * helper function
    * @type {Object}
    */
-  helper: Helper;
+  helper: CommonBin.Helper;
 
   /**
    * parserOptions
@@ -122,7 +48,7 @@ declare class CommonBin {
    * @return {Object} context - { cwd, env, argv, rawArgv }
    * @protected
    */
-  protected context: BinContext;
+  protected context: CommonBin.Context;
 
   constructor(rawArgv: string[]);
 
@@ -134,7 +60,7 @@ declare class CommonBin {
    * @param {Array} context.rawArgv - the raw argv, `[ "--baseDir=simple" ]`
    * @protected
    */
-  protected run(context?: BinContext): void;
+  protected run(context?: CommonBin.Context): void;
 
   /**
    * load sub commands
@@ -175,6 +101,82 @@ declare class CommonBin {
    * @param {String} [level=log] - console level
    */
   showHelp(level?: string): void;
+}
+
+declare namespace CommonBin {
+  export interface Helper {
+    /**
+     * fork child process, wrap with promise and gracefull exit
+     * @method helper#forkNode
+     * @param {String} modulePath - bin path
+     * @param {Array} [args] - arguments
+     * @param {Object} [options] - options
+     * @return {Promise} err or undefined
+     * @see https://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options
+     */
+    forkNode(modulePath: string, args?: string[], options?: ForkOptions): Promise<void>;
+
+    /**
+     * spawn a new process, wrap with promise and gracefull exit
+     * @method helper#forkNode
+     * @param {String} cmd - command
+     * @param {Array} [args] - arguments
+     * @param {Object} [options] - options
+     * @return {Promise} err or undefined
+     * @see https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
+     */
+    spawn(cmd: string, args?: string[], options?: SpawnOptions): Promise<void>;
+
+    /**
+     * exec npm install
+     * @method helper#npmInstall
+     * @param {String} npmCli - npm cli, such as `npm` / `cnpm` / `npminstall`
+     * @param {String} name - node module name
+     * @param {String} cwd - target directory
+     * @return {Promise} err or undefined
+     */
+    npmInstall(npmCli: string, name: string, cwd?: string): Promise<void>;
+
+    /**
+     * call fn
+     * @method helper#callFn
+     * @param {Function} fn - support generator / async / normal function return promise
+     * @param {Array} [args] - fn args
+     * @param {Object} [thisArg] - this
+     * @return {Object} result
+     */
+    callFn<T = any, U extends any[] = any[]>(fn: (...args: U) => IterableIterator<T> | Promise<T> | T, args?: U, thisArg?: any): IterableIterator<T>;
+
+    /**
+     * unparse argv and change it to array style
+     * @method helper#unparseArgv
+     * @param {Object} argv - yargs style
+     * @param {Object} [options] - options, see more at https://github.com/sindresorhus/dargs
+     * @param {Array} [options.includes] - keys or regex of keys to include
+     * @param {Array} [options.excludes] - keys or regex of keys to exclude
+     * @return {Array} [ '--debug=7000', '--debug-brk' ]
+     */
+    unparseArgv(argv: object, options?: dargs.Options): string[];
+
+    /**
+     * extract execArgv from argv
+     * @method helper#extractExecArgv
+     * @param {Object} argv - yargs style
+     * @return {Object} { debugPort, debugOptions: {}, execArgvObj: {} }
+     */
+    extractExecArgv(argv: object): { debugPort?: number; debugOptions?: PlainObject; execArgvObj: PlainObject };
+  }
+
+  export interface Context extends PlainObject {
+    cwd: string;
+    rawArgv: string[];
+    env: PlainObject;
+    argv: Arguments<PlainObject>;
+    execArgvObj: PlainObject;
+    readonly execArgv: string[];
+    debugPort?: number;
+    debugOptions?: PlainObject;
+  }
 }
 
 export = CommonBin;

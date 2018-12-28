@@ -1,4 +1,4 @@
-import CommonBin from '../../..';
+import * as CommonBin from '../../..';
 import * as path from 'path';
 
 // test bin

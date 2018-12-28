@@ -74,6 +74,10 @@ interface BinContext extends PlainObject {
   rawArgv: string[];
   env: PlainObject;
   argv: Arguments<PlainObject>;
+  execArgvObj: PlainObject;
+  readonly execArgv: string[];
+  debugPort?: number;
+  debugOptions?: PlainObject;
 }
 
 // migrating to common-bin later

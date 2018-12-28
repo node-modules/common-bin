@@ -21,6 +21,7 @@ class CustomBin extends CommonBin {
     console.info(this.context.argv);
     console.info(this.context.cwd);
     console.info(this.context.rawArgv.slice(0));
+    console.info(this.context.execArgv.slice(0));
   }
 
   errorHandler(e: Error) {

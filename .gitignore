@@ -5,4 +5,6 @@ dist
 .vscode
 .idea
 test/fixtures/test-files/package-lock.json
-
+test/fixtures/ts/*.js
+*.lock
+.nyc_output/

@@ -257,7 +257,7 @@ describe('test/my-bin.test.js', () => {
         // .debug()
         // .coverage(false)
         .notExpect('stdout', /"b":".\/dist"/)
-        .expect('stdout', /"baseDir":".\/dist"/)
+        .expect('stdout', /"base-dir":".\/dist"/)
         .notExpect('stdout', /"debug-brk":5555,/)
         .notExpect('stdout', /"debugBrk":5555,/)
         .expect('stdout', /execArgv: --debug,--debug-brk=5555,--expose_debug_as=v8debug,--inspect=6666,--inspect-brk,--es_staging,--harmony,--harmony_default_parameters/)

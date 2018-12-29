@@ -60,7 +60,7 @@ declare class CommonBin {
    * @param {Array} context.rawArgv - the raw argv, `[ "--baseDir=simple" ]`
    * @protected
    */
-  protected run(context?: CommonBin.Context): void;
+  protected run(context?: CommonBin.Context): any;
 
   /**
    * load sub commands

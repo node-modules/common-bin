@@ -1,4 +1,4 @@
-import { Arguments, Options, Argv } from 'yargs';
+import { Arguments, Argv } from 'yargs';
 import { ForkOptions, SpawnOptions } from 'child_process';
 import * as dargs from 'dargs';
 
@@ -8,7 +8,6 @@ interface PlainObject {
 
 // migrating to common-bin later
 declare class CommonBin {
-  options: Options;
   usage: string;
   version: string;
 

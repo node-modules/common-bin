@@ -54,7 +54,7 @@
   ],
   "types": "index.d.ts",
   "ci": {
-    "version": "6, 8, 10",
+    "version": "6, 8, 10, 12",
     "license": {
       "year": "2017",
       "fullname": "node-modules and other contributors"

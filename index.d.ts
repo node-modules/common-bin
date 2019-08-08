@@ -49,7 +49,7 @@ declare class CommonBin {
    */
   protected context: CommonBin.Context;
 
-  constructor(rawArgv: string[]);
+  constructor(rawArgv?: string[]);
 
   /**
    * command handler, could be generator / async function / normal function which return promise

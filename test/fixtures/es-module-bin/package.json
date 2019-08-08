@@ -1,0 +1,7 @@
+{
+  "name": "es-module-bin",
+  "version": "3.0.0",
+  "bin": {
+    "es-module-bin": "bin/es-module-bin.js"
+  }
+}

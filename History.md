@@ -1,4 +1,13 @@
 
+2.8.2 / 2019-08-08
+==================
+
+**fixes**
+  * [[`f0f4b64`](http://github.com/node-modules/common-bin/commit/f0f4b64726656f8a0416ada7c3e6bc85cebae50d)] - fix: support es module (#35) (hacke2 <<hacke2cn@gmail.com>>)
+
+**others**
+  * [[`25025a1`](http://github.com/node-modules/common-bin/commit/25025a166f783d606d6c94831841d06241253736)] -  chore: add notice of WebStorm 2019 (#31) (TZ | 天猪 <<atian25@qq.com>>)
+
 2.8.1 / 2018-12-29
 ==================
 

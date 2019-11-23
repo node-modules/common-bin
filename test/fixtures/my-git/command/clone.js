@@ -17,7 +17,7 @@ class CloneCommand extends Command {
 
   * run({ argv }) {
     console.log(argv);
-    console.log('git clone %s to %s with depth %d', argv.repository, argv.directory, argv.depth);
+    console.log('git clone %s to %s with depth %d', argv._[0], argv._[1], argv.depth);
   }
 
   get description() {

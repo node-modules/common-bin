@@ -36,7 +36,7 @@ declare class CommonBin {
    * @property {Boolean} removeAlias - whether remove alias key from `argv`
    * @property {Boolean} removeCamelCase - whether remove camel case key from `argv`
    */
-  parseOptions: {
+  parserOptions: {
     execArgv: boolean;
     removeAlias: boolean;
     removeCamelCase: boolean;

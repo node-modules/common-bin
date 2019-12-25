@@ -25,6 +25,9 @@ class ContextCommand extends Command {
 
     context.execArgvObj = { require: [ 'abc', '123' ] };
     console.log('execArgv: %j', context.execArgv);
+
+    context.execArgvObj = { require: [ './a.js', '/b.js' ] };
+    console.log('execArgv: %j', context.execArgv);
   }
 
   get description() {

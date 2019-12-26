@@ -1,4 +1,12 @@
 
+2.8.3 / 2019-12-26
+==================
+
+**fixes**
+  * [[`ca3fc44`](http://github.com/node-modules/common-bin/commit/ca3fc4476375661fc6aa9bcd84debbeadbe7f063)] - fix: --require support relative path (#38) (TZ | 天猪 <<atian25@qq.com>>)
+  * [[`d2c9ca2`](http://github.com/node-modules/common-bin/commit/d2c9ca2fc7de71624e986eccd9eb273607dc0324)] - fix: parserOptions property name error (#32) (Nick Teng <<tenpend@outlook.com>>)
+  * [[`60d25b2`](http://github.com/node-modules/common-bin/commit/60d25b252dc2a89e945c252dfb6c257a518ffc7c)] - fix: commonBin class contructor arwArgv optional (#30) (liuqipeng <<liuqipeng417@outlook.com>>)
+
 2.8.2 / 2019-08-08
 ==================
 

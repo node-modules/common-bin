@@ -135,6 +135,7 @@ describe('test/my-bin.test.js', () => {
         // .coverage(false)
         .expect('stdout', /execArgv: \["--require","abc"]/)
         .expect('stdout', /execArgv: \["--require","abc","--require","123"]/)
+        .expect('stdout', /execArgv: \["--require",".*?test-files([/|\\])+a.js","--require","\/b\.js"]/)
         .expect('code', 0)
         .end(done);
     });

@@ -176,7 +176,7 @@ this.options = {
     alias: 'b',
     demandOption: true,
     description: 'the target directory',
-    coerce: str => path.resolve(prcess.cwd(), str),
+    coerce: str => path.resolve(process.cwd(), str),
   },
   depth: {
     description: 'level to clone',

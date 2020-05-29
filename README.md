@@ -109,7 +109,7 @@ class CloneCommand extends Command {
         type: 'number',
         description: 'Create a shallow clone with a history truncated to the specified number of commits',
       },
-    });
+    };
   }
 
   * run({ argv }) {

@@ -1,4 +1,4 @@
-import { Arguments, Argv } from 'yargs';
+import { Arguments, Argv, Options } from 'yargs';
 import { ForkOptions, SpawnOptions } from 'child_process';
 import * as dargs from 'dargs';
 
@@ -50,6 +50,13 @@ declare class CommonBin {
   protected context: CommonBin.Context;
 
   constructor(rawArgv?: string[]);
+
+
+  /**
+   * shortcut for yargs.options
+   * @param  {Object} opt - an object set to `yargs.options`
+   */
+  set options(opt: { [key: string]: Options });
 
   /**
    * command handler, could be generator / async function / normal function which return promise

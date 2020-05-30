@@ -109,7 +109,7 @@ class CloneCommand extends Command {
         type: 'number',
         description: 'Create a shallow clone with a history truncated to the specified number of commits',
       },
-    });
+    };
   }
 
   * run({ argv }) {
@@ -176,7 +176,7 @@ this.options = {
     alias: 'b',
     demandOption: true,
     description: 'the target directory',
-    coerce: str => path.resolve(prcess.cwd(), str),
+    coerce: str => path.resolve(process.cwd(), str),
   },
   depth: {
     description: 'level to clone',

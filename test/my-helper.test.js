@@ -35,6 +35,7 @@ describe('test/my-helper.test.js', () => {
     coffee.fork(myBin, [ 'fork', '--target=test_script' ], { cwd })
       // .debug()
       // .coverage(false)
+      .expect('stdout', /task proc: true/)
       .expect('stdout', /process.argv: \["--target=test_script","--from=test"]/)
       .expect('code', 0)
       .end(done);

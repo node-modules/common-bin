@@ -1,4 +1,13 @@
 
+2.9.0 / 2020-07-03
+==================
+
+**features**
+  * [[`34cad2a`](http://github.com/node-modules/common-bin/commit/34cad2ad20781ec671bc8d7b846a1de1a1e3fc2a)] - feat: expose proc (#42) (TZ | 天猪 <<atian25@qq.com>>)
+
+**fixes**
+  * [[`b2c6dac`](http://github.com/node-modules/common-bin/commit/b2c6dacfb62500163f8495d765ff9586d0ad08be)] - fix(typings): add type for options (#41) (DiamondYuan <<541832074@qq.com>>)
+
 2.8.3 / 2019-12-26
 ==================
 

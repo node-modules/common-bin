@@ -1,4 +1,10 @@
 
+2.9.2 / 2022-02-09
+==================
+
+**others**
+  * [[`8db73dd`](http://github.com/node-modules/common-bin/commit/8db73ddaec86dd3013ca235975d80217727144a4)] - 🐛 FIX: Add missing license on package.json (#50) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.9.1 / 2022-02-09
 ==================
 

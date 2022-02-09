@@ -14,27 +14,26 @@
     "debug": "^4.1.0",
     "is-type-of": "^1.2.1",
     "semver": "^5.5.1",
-    "yargs": "^12.0.2",
-    "yargs-parser": "^11.0.0"
+    "yargs": "^13.3.0",
+    "yargs-parser": "^13.1.2"
   },
   "devDependencies": {
     "autod": "^3.0.1",
     "coffee": "^5.1.0",
-    "egg-bin": "^4.9.0",
-    "egg-ci": "^1.5.0",
+    "egg-bin": "^4.17.0",
+    "egg-ci": "^1.19.0",
     "eslint": "^5.6.1",
     "eslint-config-egg": "^7.1.0",
     "mm": "^2.4.1",
     "rimraf": "^2.6.2",
-    "typescript": "^3.2.2",
-    "webstorm-disable-index": "^1.1.2"
+    "typescript": "^3.2.2"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/node-modules/common-bin.git"
   },
   "homepage": "https://github.com/node-modules/common-bin",
-  "author": "fengmk2 <fengmk2@gmail.com> (https://fengmk2.com)",
+  "author": "fengmk2 <fengmk2@gmail.com> (https://github.com/fengmk2)",
   "scripts": {
     "autod": "autod",
     "clean": "rimraf coverage",
@@ -54,7 +53,8 @@
   ],
   "types": "index.d.ts",
   "ci": {
-    "version": "6, 8, 10, 12",
+    "version": "6, 8, 10, 12, 14, 16",
+    "type": "github",
     "license": {
       "year": "2017",
       "fullname": "node-modules and other contributors"

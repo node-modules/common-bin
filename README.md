@@ -417,7 +417,14 @@ class TestCommand extends Command {
 ## License
 
 [MIT](LICENSE)
+<!-- GITCONTRIBUTOR_START -->
 
 ## Contributors
 
-[![](https://ergatejs.implements.io/badges/contributors/node-modules/common-bin.svg?width=1250&size=96&padding=6)](https://github.com/node-modules/common-bin/graphs/contributors)
+|[<img src="https://avatars.githubusercontent.com/u/227713?v=4" width="100px;"/><br/><sub><b>atian25</b></sub>](https://github.com/atian25)<br/>|[<img src="https://avatars.githubusercontent.com/u/156269?v=4" width="100px;"/><br/><sub><b>fengmk2</b></sub>](https://github.com/fengmk2)<br/>|[<img src="https://avatars.githubusercontent.com/u/360661?v=4" width="100px;"/><br/><sub><b>popomore</b></sub>](https://github.com/popomore)<br/>|[<img src="https://avatars.githubusercontent.com/u/985607?v=4" width="100px;"/><br/><sub><b>dead-horse</b></sub>](https://github.com/dead-horse)<br/>|[<img src="https://avatars.githubusercontent.com/u/5856440?v=4" width="100px;"/><br/><sub><b>whxaxes</b></sub>](https://github.com/whxaxes)<br/>|[<img src="https://avatars.githubusercontent.com/u/9692408?v=4" width="100px;"/><br/><sub><b>DiamondYuan</b></sub>](https://github.com/DiamondYuan)<br/>|
+| :---: | :---: | :---: | :---: | :---: | :---: |
+[<img src="https://avatars.githubusercontent.com/u/7477670?v=4" width="100px;"/><br/><sub><b>tenpend</b></sub>](https://github.com/tenpend)<br/>|[<img src="https://avatars.githubusercontent.com/u/6399899?v=4" width="100px;"/><br/><sub><b>hacke2</b></sub>](https://github.com/hacke2)<br/>|[<img src="https://avatars.githubusercontent.com/u/11896359?v=4" width="100px;"/><br/><sub><b>liuqipeng417</b></sub>](https://github.com/liuqipeng417)<br/>|[<img src="https://avatars.githubusercontent.com/u/36788851?v=4" width="100px;"/><br/><sub><b>Jarvis2018</b></sub>](https://github.com/Jarvis2018)<br/>
+
+This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Wed Feb 09 2022 22:35:03 GMT+0800`.
+
+<!-- GITCONTRIBUTOR_END -->

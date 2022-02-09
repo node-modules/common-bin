@@ -1,4 +1,12 @@
 
+2.9.1 / 2022-02-09
+==================
+
+**others**
+  * [[`7864b22`](http://github.com/node-modules/common-bin/commit/7864b224c14ee2a6f6200bec65273b92749b2cfd)] - 🐛 FIX: Security fix for yargs (#48) (fengmk2 <<fengmk2@gmail.com>>)
+  * [[`de33d4d`](http://github.com/node-modules/common-bin/commit/de33d4d9f777d53af8f4a7fcecf5d28d827e4db1)] - test: Create codeql-analysis.yml (#49) (fengmk2 <<fengmk2@gmail.com>>)
+  * [[`d4a1de2`](http://github.com/node-modules/common-bin/commit/d4a1de2d859322b2b468b6971a0dbf9e6b82b753)] - chore: Update README.md (#40) (专注的小眼神 <<36788851+Jarvis2018@users.noreply.github.com>>)
+
 2.9.0 / 2020-07-03
 ==================
 

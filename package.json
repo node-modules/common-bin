@@ -1,6 +1,6 @@
 {
   "name": "common-bin",
-  "version": "2.9.0",
+  "version": "2.9.1",
   "description": "Abstraction bin tool",
   "main": "index.js",
   "dependencies": {

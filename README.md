@@ -135,7 +135,7 @@ Define the main logic of command
 
 **Method:**
 
-- `start()` - start your program, only use once in your bin file.
+- `async start()` - start your program, only use once in your bin file.
 - `async run(context)`
   - should implement this to provide command handler, will exec when not found sub command.
   - Support generator / async function / normal function which return promise.
@@ -195,9 +195,9 @@ get version() {
 
 ### Helper
 
-- `forkNode(modulePath, args, opt)` - fork child process, wrap with promise and gracefull exit
-- `spawn(cmd, args, opt)` - spawn a new process, wrap with promise and gracefull exit
-- `npmInstall(npmCli, name, cwd)` - install node modules, wrap with promise
+- `async forkNode(modulePath, args, opt)` - fork child process, wrap with promise and gracefull exit
+- `async spawn(cmd, args, opt)` - spawn a new process, wrap with promise and gracefull exit
+- `async npmInstall(npmCli, name, cwd)` - install node modules, wrap with promise
 - `async callFn(fn, args, thisArg)` - call fn, support gernerator / async / normal function return promise
 - `unparseArgv(argv, opts)` - unparse argv and change it to array style
 

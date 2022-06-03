@@ -14,7 +14,7 @@ class ContextCommand extends Command {
   }
 
 
-  * run({ argv, execArgv }) {
+  async run({ argv, execArgv }) {
     console.log('argv: %j', argv);
     console.log('execArgv: %s', execArgv);
   }

@@ -4,7 +4,7 @@ const Command = require('../../../..');
 
 class SubCommand extends Command {
 
-  * run() {
+  async run() {
     console.log('run sub command');
   }
 

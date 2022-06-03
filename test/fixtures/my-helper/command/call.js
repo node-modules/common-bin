@@ -4,11 +4,10 @@ const Command = require('../../../..');
 
 class CallCommand extends Command {
 
-  * run() {
-    const empty = yield this.helper.callFn('empty');
-    const promise = yield this.helper.callFn(() => Promise.resolve('promise'));
-    const generator = yield this.helper.callFn(function* () { return 'generator'; });
-    console.log('%s, %s, %s', empty, promise, generator);
+  async run() {
+    const empty = await this.helper.callFn('empty');
+    const promise = await this.helper.callFn(() => Promise.resolve('promise'));
+    console.log('%s, %s', empty, promise);
   }
 
   get description() {

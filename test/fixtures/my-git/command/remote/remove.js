@@ -4,7 +4,7 @@ const Command = require('../../../../..');
 
 class RemoveCommand extends Command {
 
-  * run({ argv }) {
+  async run({ argv }) {
     console.log('git remote remove %s', argv._[0]);
   }
 

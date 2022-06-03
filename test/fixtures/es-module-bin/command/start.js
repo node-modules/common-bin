@@ -5,7 +5,7 @@ const Command = require('../../../..');
 
 class StartCommand extends Command {
 
-  * run() {
+  async run() {
     console.log('override start command');
   }
 

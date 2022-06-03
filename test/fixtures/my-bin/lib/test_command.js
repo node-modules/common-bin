@@ -4,7 +4,7 @@ const Command = require('../../../..');
 
 class TestCommand extends Command {
 
-  * run({ cwd }) {
+  async run({ cwd }) {
     console.log('run test command at %s', cwd);
   }
 

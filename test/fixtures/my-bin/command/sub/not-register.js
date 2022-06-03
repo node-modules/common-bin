@@ -4,7 +4,7 @@ const Command = require('../../../../..');
 
 class NoCommand extends Command {
 
-  * run({ argv }) {
+  async run({ argv }) {
     console.log('run command %s with %j', this.name, argv);
   }
 

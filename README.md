@@ -1,6 +1,7 @@
 # common-bin
 
 [![NPM version][npm-image]][npm-url]
+[![Node.js CI](https://github.com/node-modules/common-bin/actions/workflows/nodejs.yml/badge.svg)](https://github.com/node-modules/common-bin/actions/workflows/nodejs.yml)
 [![Test coverage][codecov-image]][codecov-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 [![npm download][download-image]][download-url]
@@ -14,7 +15,7 @@
 [download-image]: https://img.shields.io/npm/dm/common-bin.svg?style=flat-square
 [download-url]: https://npmjs.org/package/common-bin
 
-Abstraction bin tool wrap [yargs](http://yargs.js.org/), to provide more convenient usage, support async / generator.
+Abstraction bin tool wrap [yargs](http://yargs.js.org/), to provide more convenient usage, support async / await style.
 
 ---
 
@@ -106,7 +107,7 @@ class CloneCommand extends Command {
     };
   }
 
-  * run({ argv }) {
+  async run({ argv }) {
     console.log('git clone %s to %s with depth %d', argv._[0], argv._[1], argv.depth);
   }
 
@@ -135,7 +136,7 @@ Define the main logic of command
 **Method:**
 
 - `start()` - start your program, only use once in your bin file.
-- `run(context)`
+- `async run(context)`
   - should implement this to provide command handler, will exec when not found sub command.
   - Support generator / async function / normal function which return promise.
   - `context` is `{ cwd, env, argv, rawArgv }`
@@ -197,7 +198,7 @@ get version() {
 - `forkNode(modulePath, args, opt)` - fork child process, wrap with promise and gracefull exit
 - `spawn(cmd, args, opt)` - spawn a new process, wrap with promise and gracefull exit
 - `npmInstall(npmCli, name, cwd)` - install node modules, wrap with promise
-- `* callFn(fn, args, thisArg)` - call fn, support gernerator / async / normal function return promise
+- `async callFn(fn, args, thisArg)` - call fn, support gernerator / async / normal function return promise
 - `unparseArgv(argv, opts)` - unparse argv and change it to array style
 
 **Extend Helper**
@@ -237,7 +238,7 @@ class MainCommand extends Command {
     };
   }
 
-  * run(context) {
+  async run(context) {
     console.log('run default command at %s', context.argv.baseDir);
   }
 }
@@ -257,7 +258,7 @@ class RemoteCommand extends Command {
     this.load(path.join(__dirname, 'remote'));
   }
 
-  * run({ argv }) {
+  async run({ argv }) {
     console.log('run remote command with %j', argv._);
   }
 
@@ -281,7 +282,7 @@ class AddCommand extends Command {
 
   }
 
-  * run({ argv }) {
+  async run({ argv }) {
     console.log('git remote add %s to %s with tags=%s', argv.name, argv.url, argv.tags);
   }
 
@@ -298,7 +299,6 @@ see [remote.js](test/fixtures/my-git/command/remote.js) for more detail.
 
 ```js
 class SleepCommand extends Command {
-
   async run() {
     await sleep('1s');
     console.log('sleep 1s');
@@ -316,7 +316,6 @@ function sleep(ms) {
 
 see [async-bin](test/fixtures/async-bin) for more detail.
 
-
 ### Bash-Completions
 
 ```bash
@@ -329,7 +328,7 @@ $ my-git completion >> ~/.bashrc
 ![Bash-Completions](https://cloud.githubusercontent.com/assets/227713/23980327/0a00e1a0-0a3a-11e7-81be-23b4d54d91ad.gif)
 
 
-## Migrating from v1 to v2
+## Migrating from v1 to v3
 
 ### bin
 
@@ -340,7 +339,7 @@ $ my-git completion >> ~/.bashrc
 const run = require('common-bin').run;
 run(require('../lib/my_program'));
 
-// 2.x
+// 3.x
 // require a main Command
 const Command = require('..');
 new Command().start();
@@ -356,7 +355,7 @@ new Command().start();
 // 1.x
 this.addCommand('test', path.join(__dirname, 'test_command.js'));
 
-// 2.x
+// 3.x
 const Command = require('common-bin');
 const pkg = require('./package.json');
 
@@ -375,7 +374,7 @@ class MainCommand extends Command {
 
 - `help()` is not use anymore.
 - should provide `name`, `description`, `options`.
-- `* run()` arguments had change to object, recommand to use destructuring style - `{ cwd, env, argv, rawArgv }`
+- `async run()` arguments had change to object, recommand to use destructuring style - `{ cwd, env, argv, rawArgv }`
   - `argv` is an object parse by `yargs`, **not `args`.**
   - `rawArgv` is equivalent to old `args`
 
@@ -387,7 +386,7 @@ class TestCommand extends Command {
   }
 }
 
-// 2.x
+// 3.x
 class TestCommand extends Command {
   constructor() {
     super();
@@ -399,7 +398,7 @@ class TestCommand extends Command {
     };
   }
 
-  * run({ cwd, env, argv, rawArgv }) {
+  async run({ cwd, env, argv, rawArgv }) {
     console.log('run mocha test at %s with %j', cwd, argv);
   }
 

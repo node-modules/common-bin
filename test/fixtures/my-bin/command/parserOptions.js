@@ -20,7 +20,7 @@ class ContextCommand extends Command {
   }
 
 
-  * run({ argv, execArgv, debugPort }) {
+  async run({ argv, execArgv, debugPort }) {
     console.log('argv: %j', argv);
     console.log('execArgv: %s', execArgv.join(','));
     console.log('debugPort: %s', debugPort);

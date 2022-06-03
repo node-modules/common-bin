@@ -3,12 +3,9 @@
 const Command = require('../../../..');
 
 class ErrorCommand extends Command {
-
   async run() {
-    throw new Error('something wrong');
+    await this.helper.callFn(function* () { return 'generator'; });
   }
-
-  get description() { return 'throw error'; }
 }
 
 module.exports = ErrorCommand;

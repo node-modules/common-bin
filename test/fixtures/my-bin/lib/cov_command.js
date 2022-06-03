@@ -4,7 +4,7 @@ const Command = require('../../../..');
 
 class CovCommand extends Command {
 
-  * run({ cwd }) {
+  async run({ cwd }) {
     console.log('run cov command at %s', cwd);
   }
 

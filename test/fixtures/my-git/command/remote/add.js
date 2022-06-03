@@ -22,7 +22,7 @@ class AddCommand extends Command {
     };
   }
 
-  * run({ argv }) {
+  async run({ argv }) {
     console.log('git remote add %s to %s with tags=%s', argv._[0], argv._[1], argv.tags);
   }
 

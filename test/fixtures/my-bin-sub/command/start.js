@@ -4,7 +4,7 @@ const Command = require('../../my-bin').StartCommand;
 
 class StartCommand extends Command {
 
-  * run() {
+  async run() {
     console.log('override start command');
   }
 

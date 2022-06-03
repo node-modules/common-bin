@@ -19,7 +19,7 @@ class ContextCommand extends Command {
   }
 
 
-  * run(context) {
+  async run(context) {
     context.execArgvObj = { require: 'abc' };
     console.log('execArgv: %j', context.execArgv);
 

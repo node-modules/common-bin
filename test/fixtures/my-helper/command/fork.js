@@ -13,10 +13,10 @@ class ForkCommand extends Command {
     };
   }
 
-  * run({ argv, rawArgv }) {
+  async run({ argv, rawArgv }) {
     const task = this.helper.forkNode(path.join(__dirname, '../scripts', argv.target), rawArgv.concat('--from=test'));
     console.log('task proc: %s', !!task.proc);
-    yield task;
+    await task;
   }
 
   get description() {

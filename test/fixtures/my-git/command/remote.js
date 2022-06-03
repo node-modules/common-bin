@@ -11,7 +11,7 @@ class RemoteCommand extends Command {
     this.alias('rm', 'remove');
   }
 
-  * run({ argv }) {
+  async run({ argv }) {
     console.log('run remote command with %j', argv._);
   }
 

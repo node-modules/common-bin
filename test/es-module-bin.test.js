@@ -12,19 +12,19 @@ describe('test/es-module-bin.test.js', () => {
 
   it('es-module-bin --help', () => {
     return coffee.fork(myBin, [ '--help' ], { cwd })
-      .debug()
+      // .debug()
       .expect('stdout', /Options:/)
       .expect('stdout', /-h, --help.*/)
       .expect('code', 0)
       .end();
   });
 
-  it('es-module-bin start', done => {
-    coffee.fork(myBin, [ 'start' ], { cwd })
-      .debug()
+  it('es-module-bin start', () => {
+    return coffee.fork(myBin, [ 'start' ], { cwd })
+      // .debug()
       // .coverage(false)
       .expect('stdout', /override start command/)
       .expect('code', 0)
-      .end(done);
+      .end();
   });
 });

@@ -2,7 +2,6 @@
 
 const path = require('path');
 const Command = require('../../..');
-const co = require('co');
 
 class MainCommand extends Command {
   constructor(rawArgv) {
@@ -19,14 +18,11 @@ class MainCommand extends Command {
     await this.callFn();
   }
 
-  callFn() {
-    return co(function* () {
-      const empty = yield this.helper.callFn('empty');
-      const async = yield this.helper.callFn(async () => Promise.resolve('async'));
-      const promise = yield this.helper.callFn(() => Promise.resolve('promise'));
-      const generator = yield this.helper.callFn(function* () { return 'generator'; });
-      console.log('%s, %s, %s, %s', empty, async, promise, generator);
-    }.bind(this));
+  async callFn() {
+    const empty = await this.helper.callFn('empty');
+    const async = await this.helper.callFn(async () => Promise.resolve('async'));
+    const promise = await this.helper.callFn(() => Promise.resolve('promise'));
+    console.log('%s, %s, %s', empty, async, promise);
   }
 }
 

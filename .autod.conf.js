@@ -4,7 +4,6 @@ module.exports = {
   write: true,
   prefix: '^',
   devprefix: '^',
-  registry: 'https://r.cnpmjs.org',
   exclude: [
     './test/fixtures',
   ],
@@ -17,6 +16,5 @@ module.exports = {
   keep: [
   ],
   semver: [
-    'koa@1',
   ],
 };

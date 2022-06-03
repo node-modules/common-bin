@@ -1,4 +1,11 @@
 
+3.0.0 / 2022-06-04
+==================
+
+**others**
+  * [[`11373a4`](http://github.com/node-modules/common-bin/commit/11373a4f83aba84f2b29a1cc1e3acecb5869de3a)] - 📦 NEW: [BREAKNING] Remove generator function support (#51) (fengmk2 <<fengmk2@gmail.com>>)
+  * [[`3144729`](http://github.com/node-modules/common-bin/commit/31447297aab19ce708d7f0e241c217ec357655cc)] - 📖 DOC: Use git-contributor instead (fengmk2 <<fengmk2@gmail.com>>)
+
 2.9.2 / 2022-02-09
 ==================
 

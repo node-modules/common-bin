@@ -424,6 +424,6 @@ class TestCommand extends Command {
 | :---: | :---: | :---: | :---: | :---: | :---: |
 [<img src="https://avatars.githubusercontent.com/u/7477670?v=4" width="100px;"/><br/><sub><b>tenpend</b></sub>](https://github.com/tenpend)<br/>|[<img src="https://avatars.githubusercontent.com/u/6399899?v=4" width="100px;"/><br/><sub><b>hacke2</b></sub>](https://github.com/hacke2)<br/>|[<img src="https://avatars.githubusercontent.com/u/11896359?v=4" width="100px;"/><br/><sub><b>liuqipeng417</b></sub>](https://github.com/liuqipeng417)<br/>|[<img src="https://avatars.githubusercontent.com/u/36788851?v=4" width="100px;"/><br/><sub><b>Jarvis2018</b></sub>](https://github.com/Jarvis2018)<br/>
 
-This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Wed Feb 09 2022 22:35:03 GMT+0800`.
+This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Sat Jun 04 2022 00:31:29 GMT+0800`.
 
 <!-- GITCONTRIBUTOR_END -->

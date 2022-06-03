@@ -49,6 +49,9 @@
   "engines": {
     "node": ">= 6.0.0"
   },
+  "publishConfig": {
+    "tag": "latest-2"
+  },
   "files": [
     "lib",
     "index.d.ts",

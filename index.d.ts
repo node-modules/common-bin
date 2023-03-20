@@ -81,7 +81,7 @@ declare class CommonBin {
    * @param {String|Class} target - special file path (must contains ext) or Command Class
    * @example `add('test', path.join(__dirname, 'test_command.js'))`
    */
-  add(name: string, target: string | CommonBin): void;
+  add(name: string, target: string | typeof CommonBin): void;
 
   /**
    * alias an existing command

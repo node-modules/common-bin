@@ -46,12 +46,5 @@
     "index.d.ts",
     "index.js"
   ],
-  "types": "index.d.ts",
-  "ci": {
-    "version": "14, 16, 18",
-    "license": {
-      "year": "2017",
-      "fullname": "node-modules and other contributors"
-    }
-  }
+  "types": "index.d.ts"
 }

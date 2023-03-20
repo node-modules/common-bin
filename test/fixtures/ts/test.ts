@@ -3,8 +3,7 @@ import * as path from 'path';
 
 // test bin
 const bin = new CommonBin(['egg-bin', 'test']);
-const subBin = new CommonBin(['test']);
-bin.add('test', subBin);
+bin.add('test', CommonBin);
 bin.alias('t', 'test');
 bin.load(path.resolve(__dirname, '../async-bin/command'));
 bin.showHelp();

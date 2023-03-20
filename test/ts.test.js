@@ -9,7 +9,7 @@ describe('test/ts.test.js', () => {
       require.resolve('typescript/bin/tsc'),
       [ '-p', path.resolve(__dirname, './fixtures/ts/tsconfig.json') ]
     )
-    // .debug()
+      .debug()
       .expect('code', 0)
       .end();
   });
